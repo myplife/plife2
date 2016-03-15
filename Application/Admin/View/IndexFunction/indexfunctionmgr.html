@@ -33,7 +33,7 @@
                             <td>{$vo.modeldesc}</td>
                             <td>{$vo.sort}</td>
                             <td>{$vo.creatime}</td>
-                            <td><if condition="$vo.isshown eq 0">不显示</if><if condition="$vo.isshown eq 1">显示</if></td>
+                            <td><if condition="$vo.isshown eq 0">显示</if><if condition="$vo.isshown eq 1">不显示</if></td>
                             <td class="center">
                                 <a href="{:U('IndexFunction/editindexfunction',array('id'=>$vo['id']))}" type="button" class="btn btn-outline btn-primary btn-xs">修改</a>
                                 <a type="button" class="btn btn-outline btn-primary btn-xs" href="{:U('IndexFunction/delindexfunction',array('id'=>$vo['id']))}" onclick="if(!confirm('您是否确定要删除该模块记录？')){return  false;}">删除</a>
