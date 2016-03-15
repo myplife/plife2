@@ -40,8 +40,8 @@ class BookController extends Controller
         $userid = I('post.userid');
 //        $userid = '1001';
         $where['pl_readrecord.uid'] = $userid;
+        $where['pl_bookparam.pid'] = '0';
         $data = $this->bookLogic->getReadRecordList($where);
-        print_r($data);die;
         $this->ajaxReturn($data);
     }
 }
