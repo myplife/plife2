@@ -18,7 +18,7 @@ class UserLogic extends \Think\Model{
     }
     public function update_userinfo($post,$token){
         $object = new \Curl\Curl\Curl();
-        $user = $this->Admin->where(array('uid'=>$post['uid']))->find();
+        $user = $this->Admin->where(array('uid'=>$post['userid']))->find();
 
         if(!$user){
             echo 'user is not found';return false;
