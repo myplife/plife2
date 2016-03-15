@@ -31,7 +31,7 @@
                             <div class="col-lg-10">
                                 <input type="file" name="img" id="doc" style="width:150px;" onchange="javascript:setImagePreview();">
                             </div>
-                            <div class="col-lg-10" id="localImag"><img id="preview" src="{$Think.WEB_ROOT}{$data.img}" width="150" height="180" style="display:block; width: 150px; height: 100px;">
+                            <div class="col-lg-10" id="localImag"><img id="preview" src="{$Think.WEB_ROOT}{$data.modelimg}" width="150" height="180" style="display:block; width: 150px; height: 100px;">
                             </div>
                         </div>
 
@@ -68,6 +68,26 @@
 </block>
 
 <block name="extjs">
+    <script language="javascript" type="text/javascript">
+        function valid(){
+            var title = document.getElementById("title").value;
+            var sort = document.getElementById("sort").value;
+            var description = document.getElementById("description").value;
+            if(title==""){
+                alert("标题不能为空");
+                return false;
+            }
+            if(sort==""){
+                alert("排序不能为空");
+                return false;
+            }
+            if(description==""){
+                alert("描述不能为空");
+                return false;
+            }
+            return true;
+        }
+    </script>
     <script language="javascript" type="text/javascript">
         $(function(){
             $("select[name='cid']").find('option').each(function(){
@@ -213,26 +233,3 @@
     </style>
 </block>
 
-
-<block name="extjs">
-    <script language="javascript" type="text/javascript">
-        function valid(){
-            var title = document.getElementById("title").value;
-            var sort = document.getElementById("sort").value;
-            var description = document.getElementById("description").value;
-            if(title==""){
-                alert("标题不能为空");
-                return false;
-            }
-            if(sort==""){
-                alert("排序不能为空");
-                return false;
-            }
-            if(description==""){
-                alert("描述不能为空");
-                return false;
-            }
-            return true;
-        }
-    </script>
-</block>
