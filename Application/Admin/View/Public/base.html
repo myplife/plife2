@@ -175,7 +175,7 @@
 						</li>
 						<php>}</php>
 						<php>if (in_array('4_1_0', $_SESSION['menupriv']) || in_array('4_2_0', $_SESSION['menupriv'])) { </php>
-						<li class="openable <block name='adsmenu'></block>">
+						<li class="openable <block name='bookmenu'></block>">
 							<a href="#">
 								<span class="menu-icon">
 									<i class="fa fa-inbox fa-lg"></i>
@@ -295,7 +295,7 @@
 							<ul class="submenu">
 								<!--<li class="<block name='systemsubmenurolemgr'></block>"><a href="{:U('Sign/index')}"><span class="submenu-label"><i class="fa fa-unlock fa-lg"></i>&nbsp;&nbsp;签到积分管理</span></a></li>-->
 
-								<li class="<block name='systemsubmenuadminusermgr'></block>"><a href="{:U('Sign/usersignmgr')}"><span class="submenu-label"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;用户签到管理</span></a></li>
+								<li class="<block name='signsubmenusignmgr'></block>"><a href="{:U('Sign/usersignmgr')}"><span class="submenu-label"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;用户签到管理</span></a></li>
 							</ul>
 						</li>
 
@@ -310,12 +310,12 @@
 								<span class="menu-hover"></span>
 							</a>
 							<ul class="submenu">
-								<li class="<block name='systemsubmenurolemgr'></block>"><a href="{:U('Task/index')}"><span class="submenu-label"><i class="fa fa-unlock fa-lg"></i>&nbsp;&nbsp;任务管理</span></a></li>
-								<li class="<block name='systemsubmenuadminusermgr'></block>"><a href="{:U('Task/usertaskmgr')}"><span class="submenu-label"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;用户任务管理</span></a></li>
+								<li class="<block name='submenuindex'></block>"><a href="{:U('Task/index')}"><span class="submenu-label"><i class="fa fa-unlock fa-lg"></i>&nbsp;&nbsp;任务管理</span></a></li>
+								<li class="<block name='submenuusertaskmgr'></block>"><a href="{:U('Task/usertaskmgr')}"><span class="submenu-label"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;用户任务管理</span></a></li>
 							</ul>
 						</li>
 
-						<li class="openable  <block name='taskmenu'></block>">
+						<li class="openable  <block name='shopmenu'></block>">
 							<a href="#">
 								<span class="menu-icon">
 									<i class="fa fa-inbox fa-lg"></i>
@@ -326,8 +326,8 @@
 								<span class="menu-hover"></span>
 							</a>
 							<ul class="submenu">
-								<li class="<block name='systemsubmenurolemgr'></block>"><a href="{:U('Product/index')}"><span class="submenu-label"><i class="fa fa-unlock fa-lg"></i>&nbsp;&nbsp;产品管理</span></a></li>
-								<li class="<block name='systemsubmenuadminusermgr'></block>"><a href="{:U('Product/userproductmgr')}"><span class="submenu-label"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;用户兑换产品管理</span></a></li>
+								<li class="<block name='shopsubmenuindex'></block>"><a href="{:U('Product/index')}"><span class="submenu-label"><i class="fa fa-unlock fa-lg"></i>&nbsp;&nbsp;产品管理</span></a></li>
+								<li class="<block name='shopsubmenuuserproductmgr'></block>"><a href="{:U('Product/userproductmgr')}"><span class="submenu-label"><i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;用户兑换产品管理</span></a></li>
 							</ul>
 						</li>
 					</ul>
