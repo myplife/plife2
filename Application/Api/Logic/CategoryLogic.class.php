@@ -15,8 +15,8 @@ class CategoryLogic extends \Think\Model{
     }
     private $Category;
 
-    public function getCategoryList($pid){
-        $data = $this->Category->where(array('pid'=>$pid))->order('id asc')->select();
+    public function getCategoryList($type){
+        $data = $this->Category->where(array('type'=>$type))->order('id asc')->select();
         return $data;
     }
 
