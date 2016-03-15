@@ -43,9 +43,10 @@ class IndexFunctionController extends Controller
         $this->assign('errcode','0');
         if(I('post.act')=='add'){
             $newdata = array();
-            $newdata['title'] = I('post.title');
+            $newdata['modelname'] = I('post.modelname');
+            $newdata['isshown'] = I('post.isshown');
             $newdata['sort'] = I('post.sort');
-            $newdata['description'] = I('post.description');
+            $newdata['modeldesc'] = I('post.modeldesc');
             $newdata['create_date'] = date("Y-m-d H:i:s");
             $ret = $this->Function->add($newdata);
             if($ret){
@@ -65,9 +66,10 @@ class IndexFunctionController extends Controller
         if(I('post.act')=='edit'){
             $newdata = array();
             $id = I('post.id','','int');
-            $newdata['title'] = I('post.title');
+            $newdata['modelname'] = I('post.modelname');
+            $newdata['isshown'] = I('post.isshown');
             $newdata['sort'] = I('post.sort');
-            $newdata['description'] = I('post.description');
+            $newdata['modeldesc'] = I('post.modeldesc');
             $ret = $this->Function->where('id='.$id)->save($newdata);
             if($ret){
                 $this->redirect('IndexFunction/indexfunctionmgr');

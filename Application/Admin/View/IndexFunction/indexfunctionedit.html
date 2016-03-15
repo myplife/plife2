@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">标题</label>
                             <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="请输入首页功能标题" name="title" id="title"  value="{$data.title}">
+                                <input class="form-control" type="text" placeholder="请输入首页功能标题" name="modelname" id="title"  value="{$data.modelname}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -29,8 +29,17 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">描述</label>
                             <div class="col-lg-10">
-                                <textarea class="form-control" rows="5" placeholder="请输入首页功能描述" name="description" id="description">{$data.description}</textarea>
+                                <textarea class="form-control" rows="5" placeholder="请输入首页功能描述" name="modeldesc" id="description">{$data.modelname}</textarea>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">文章类型</label>
+                            <label class="radio-inline">
+                                <input type="radio" style="opacity: 1" name="isshown" id="isshown" value="0" <if condition="$data.isshown eq 0">checked="checked"</if> >显示
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" style="opacity: 1" name="isshown" id="isshown" value="1" <if condition="$data.isshown eq 1">checked="checked"</if>>不显示
+                            </label>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label"></label>
