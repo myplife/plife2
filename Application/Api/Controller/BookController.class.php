@@ -21,11 +21,13 @@ class BookController extends Controller
 
     /**
      * 图书获取接口
+     * param: 父类id: pid:0
      * @return json : data
      */
     public function GetBookList()
     {
-        $data = $this->bookLogic->getBookList();
+        $where['pid'] =I('post.pid')?I('post.pid'):0;
+        $data = $this->bookLogic->getBookList($where);
         $this->ajaxReturn($data);
     }
 
@@ -33,9 +35,12 @@ class BookController extends Controller
      * 用户浏览图书记录接口
      * @return json : data
      */
-    public function GetReadrecordList()
+    public function GetReadRecordList()
     {
-        $data = $this->bookLogic->getReadRecordList();
+        $userid = I('post.userid');
+//        $userid = '1001';
+        $where['uid'] = $userid;
+        $data = $this->bookLogic->getReadRecordList($where);
         $this->ajaxReturn($data);
     }
 }

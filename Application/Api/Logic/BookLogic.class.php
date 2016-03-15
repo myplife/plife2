@@ -32,7 +32,7 @@ class BookLogic extends \Think\Model{
             $mycond = $cond;
         }
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->Book->join('pl_bookparam on pl_book.id = pl_bookparam.bookid')->where($mycond)->where('pl_book.isdel is null and pid = 0')->page($pstr)->order('pl_bookparam.id asc')->select();
+        $data = $this->Book->join('pl_bookparam on pl_book.id = pl_bookparam.bookid')->where($mycond)->where('pl_book.isdel is null')->page($pstr)->order('pl_bookparam.id asc')->select();
         return $data;
     }
 

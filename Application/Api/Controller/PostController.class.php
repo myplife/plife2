@@ -16,11 +16,15 @@ class PostController extends Controller
 
     /**
      * 文章查询接口
+     * param: keywords:文章关键字
      * @return json : data
      */
     public function GetPosts()
     {
-        $data = $this->postLogic->getPostList();
+        $searchstring = I('post.keywords')?I('post.keywords'):0;
+//        $searchstring = '微信';
+        $con['title'] = array('like','%'.$searchstring.'%');
+        $data = $this->postLogic->getPostList($con);
         $this->ajaxReturn($data);
     }
 }
