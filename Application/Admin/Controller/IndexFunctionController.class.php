@@ -48,6 +48,10 @@ class IndexFunctionController extends Controller
             $newdata['sort'] = I('post.sort');
             $newdata['modeldesc'] = I('post.modeldesc');
             $newdata['create_date'] = date("Y-m-d H:i:s");
+            $upres = $this->upimgfile();
+            if($upres['error'] == false){
+                $newdata['img'] = $upres['result']['img']['fullpath'];
+            }
             $ret = $this->Function->add($newdata);
             if($ret){
                 $this->redirect('IndexFunction/indexfunctionmgr');
@@ -70,6 +74,11 @@ class IndexFunctionController extends Controller
             $newdata['isshown'] = I('post.isshown');
             $newdata['sort'] = I('post.sort');
             $newdata['modeldesc'] = I('post.modeldesc');
+            $upres = $this->upimgfile();
+
+            if($upres['error'] == false){
+                $newdata['modelimg'] = $upres['result']['img']['fullpath'];
+            }
             $ret = $this->Function->where('id='.$id)->save($newdata);
             if($ret){
                 $this->redirect('IndexFunction/indexfunctionmgr');
@@ -96,5 +105,27 @@ class IndexFunctionController extends Controller
         }else{
             $this->error('该记录不存在');
         }
+    }
+
+    private function upimgfile(){
+        $ret = array();
+        $upload =  new \Think\Upload();
+        $upload->maxSize       = C('ITEM_IMG_MAXSIZE');;
+        $upload->exts          = array('jpg', 'jpeg', 'png', 'gif', 'bmp');
+        $upload->rootPath      = C('ITEM_IMG_PATH');
+        $upload->subName       = array('date', 'Ym');
+        $upfinfo = $upload->upload();
+        if(!$upfinfo) {// 上传错误提示错误信息
+            $ret['error'] = true;
+            $ret['result'] = $upload->getError();
+            //$this->error($upload->getError());
+        }else{// 上传成功
+            foreach($upfinfo as $k=>&$file){
+                $file['fullpath'] = $upload->rootPath.$file['savepath'].$file['savename'];
+            }
+            $ret['error'] = false;
+            $ret['result'] = $upfinfo;
+        }
+        return $ret;
     }
 }
