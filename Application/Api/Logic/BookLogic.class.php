@@ -119,8 +119,11 @@ class BookLogic extends \Think\Model{
         if(is_array($cond) && count($cond)>0){
             $mycond = $cond;
         }
+
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->Readrecord->where($mycond)->where('isdel is null')->page($pstr)->order('id asc')->select();
+        $data = $this->Readrecord->field('pl_readrecord.id,pl_readrecord.chapter,pl_readrecord.uid,pl_bookparam.name as bookname')->join('pl_bookparam on pl_readrecord.paramid = pl_bookparam.id')
+            ->join('pl_book on pl_readrecord.bookid = pl_book.id')
+            ->where($mycond)->where('pl_book.isdel is null')->page($pstr)->order('pl_bookparam.id asc')->select();
         return $data;
     }
 
