@@ -6,7 +6,7 @@
  * Time: 上午9:02
  */
 
-namespace Mobile\Logic;
+namespace Api\Logic;
 
 
 class ResourceLogic extends \Think\Model{
