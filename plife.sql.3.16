@@ -152,7 +152,7 @@ CREATE TABLE `pl_banner` (
 
 LOCK TABLES `pl_banner` WRITE;
 /*!40000 ALTER TABLE `pl_banner` DISABLE KEYS */;
-INSERT INTO `pl_banner` VALUES (5,'广告',3,'','广告','广告',0,'2016-01-07 01:18:36','0000-00-00 00:00:00','0000-00-00 00:00:00','3',2,NULL),(6,'新闻',1,'Upload/Img/201601/568f61a030fe8.png','&lt;html&gt;\r\n        &lt;body&gt;\r\n             &lt;script type=&quot;text/javascript&quot;&gt;\r\n                   document.write(&quot;Hello World!&quot;)\r\n             &lt;/script&gt;\r\n        &lt;/body&gt;\r\n&lt;/html&gt;','www.hict.cc',0,'2016-01-07 03:10:22','2016-01-07 04:18:00','2016-01-22 06:30:00','1',1,NULL),(7,'广告',1,'','广告','www.hict.cc',0,'2016-01-08 06:51:54','2016-01-08 06:51:00','2016-01-28 06:51:00','3',1,NULL),(8,'',1,'','','',0,'2016-01-12 02:45:48','0000-00-00 00:00:00','0000-00-00 00:00:00','',1,NULL),(9,'首页类别',0,'Upload/Img/201603/56e7b0e67cd58.png','这个不错的！','http://localhost/~morganzhao/plife/index.php/Ads/addbanner.html',0,'2016-02-22 08:46:38','2016-02-22 08:46:00','2016-03-29 08:46:00','1',1,NULL);
+INSERT INTO `pl_banner` VALUES (5,'广告',3,'','广告','广告',0,'2016-01-07 01:18:36','0000-00-00 00:00:00','0000-00-00 00:00:00','3',2,NULL),(6,'新闻',1,'Upload/Img/201601/568f61a030fe8.png','&lt;html&gt;\r\n        &lt;body&gt;\r\n             &lt;script type=&quot;text/javascript&quot;&gt;\r\n                   document.write(&quot;Hello World!&quot;)\r\n             &lt;/script&gt;\r\n        &lt;/body&gt;\r\n&lt;/html&gt;','www.hict.cc',0,'2016-01-07 03:10:22','2016-01-07 04:18:00','2016-01-22 06:30:00','1',1,NULL),(7,'广告',1,'','广告','www.hict.cc',0,'2016-01-08 06:51:54','2016-01-08 06:51:00','2016-01-28 06:51:00','3',1,NULL),(8,'',1,'','','',0,'2016-01-12 02:45:48','0000-00-00 00:00:00','0000-00-00 00:00:00','',1,NULL),(9,'首页类别',0,'Upload/Img/201602/56caccac8ef95.png','这个不错的！','http://localhost/~morganzhao/plife/index.php/Ads/addbanner.html',0,'2016-02-22 08:46:38','2016-02-22 08:46:00','2016-03-29 08:46:00','1',1,NULL);
 /*!40000 ALTER TABLE `pl_banner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -354,12 +354,10 @@ DROP TABLE IF EXISTS `pl_function`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pl_function` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
-  `modelname` varchar(200) NOT NULL,
+  `title` varchar(200) NOT NULL,
   `sort` varchar(300) NOT NULL,
-  `modeldesc` varchar(300) NOT NULL,
-  `modelimg` varchar(300) NOT NULL,
+  `description` varchar(300) NOT NULL,
   `creatime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isshown` tinyint(1) NOT NULL,
   `isdel` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='首页功能模块表';
@@ -371,125 +369,8 @@ CREATE TABLE `pl_function` (
 
 LOCK TABLES `pl_function` WRITE;
 /*!40000 ALTER TABLE `pl_function` DISABLE KEYS */;
-INSERT INTO `pl_function` VALUES (1,'121','1','121','Upload/Img/201603/56e7c7037522e.png','2016-02-18 09:54:03',0,NULL);
+INSERT INTO `pl_function` VALUES (1,'121','1','11','2016-02-18 09:54:03',NULL);
 /*!40000 ALTER TABLE `pl_function` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `pl_game_file`
---
-
-DROP TABLE IF EXISTS `pl_game_file`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pl_game_file` (
-  `file_id` int(11) NOT NULL DEFAULT '0',
-  `game_id` int(11) DEFAULT NULL,
-  `channel_id` int(11) DEFAULT NULL,
-  `file_type` int(11) DEFAULT NULL COMMENT '1:apk源包  2:渠道包',
-  `file_size` int(11) DEFAULT NULL,
-  `version_code` varchar(32) DEFAULT NULL,
-  `version_name` varchar(32) DEFAULT NULL,
-  `package_name` varchar(100) DEFAULT NULL,
-  `file_url` varchar(200) DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pl_game_file`
---
-
-LOCK TABLES `pl_game_file` WRITE;
-/*!40000 ALTER TABLE `pl_game_file` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pl_game_file` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `pl_game_image`
---
-
-DROP TABLE IF EXISTS `pl_game_image`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pl_game_image` (
-  `image_id` int(11) NOT NULL DEFAULT '0',
-  `game_id` int(11) DEFAULT NULL,
-  `image_type` int(11) DEFAULT NULL COMMENT 'icon:200 截图:203 推广广告图:400',
-  `image_size` int(11) DEFAULT NULL,
-  `image_height` int(11) DEFAULT NULL,
-  `image_width` int(11) DEFAULT NULL,
-  `image_index` int(11) DEFAULT NULL COMMENT '图片顺序 0-6',
-  `image_url` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pl_game_image`
---
-
-LOCK TABLES `pl_game_image` WRITE;
-/*!40000 ALTER TABLE `pl_game_image` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pl_game_image` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `pl_games`
---
-
-DROP TABLE IF EXISTS `pl_games`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pl_games` (
-  `game_id` int(11) NOT NULL DEFAULT '0',
-  `cp_name` varchar(200) DEFAULT NULL,
-  `game_name` varchar(100) DEFAULT NULL,
-  `game_tag` int(11) DEFAULT NULL,
-  `game_class` int(11) DEFAULT NULL COMMENT '11:单击 12:网游',
-  `create_time` datetime DEFAULT NULL,
-  `modify_time` datetime DEFAULT NULL,
-  `online_status` enum('1','0') DEFAULT NULL COMMENT '1:商用; 0:下线',
-  `channel_id` varchar(20) DEFAULT NULL,
-  `introduction` text,
-  PRIMARY KEY (`game_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pl_games`
---
-
-LOCK TABLES `pl_games` WRITE;
-/*!40000 ALTER TABLE `pl_games` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pl_games` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `pl_operation`
---
-
-DROP TABLE IF EXISTS `pl_operation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pl_operation` (
-  `objid` int(8) unsigned NOT NULL AUTO_INCREMENT,
-  `uid` int(8) NOT NULL,
-  `operation` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '应用类型：0.下载app 1.视频播放 2.搜索 3.阅读图书 4.打开广告 5.查询 6.打开游戏 7.打开应用',
-  `creatime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`objid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pl_operation`
---
-
-LOCK TABLES `pl_operation` WRITE;
-/*!40000 ALTER TABLE `pl_operation` DISABLE KEYS */;
-INSERT INTO `pl_operation` VALUES (1,1001,0,'2016-03-14 02:57:41'),(2,1001,0,'2016-03-14 02:57:58'),(3,1001,1,'2016-03-14 02:58:11');
-/*!40000 ALTER TABLE `pl_operation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -621,35 +502,6 @@ INSERT INTO `pl_readrecord` VALUES (15,17,'第二章','4',22,1001,NULL,'2016-02-
 UNLOCK TABLES;
 
 --
--- Table structure for table `pl_records`
---
-
-DROP TABLE IF EXISTS `pl_records`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pl_records` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mac` varchar(20) DEFAULT '',
-  `ip` varchar(15) DEFAULT NULL,
-  `os` varchar(16) DEFAULT '',
-  `os_version` varchar(16) DEFAULT '',
-  `type` enum('play','download') DEFAULT 'play',
-  `third_id` varchar(64) DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pl_records`
---
-
-LOCK TABLES `pl_records` WRITE;
-/*!40000 ALTER TABLE `pl_records` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pl_records` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `pl_resource`
 --
 
@@ -719,7 +571,7 @@ CREATE TABLE `pl_user_product` (
   `productid` int(10) NOT NULL COMMENT '产品ID',
   `exchangetimes` datetime NOT NULL COMMENT '兑换时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1034 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='用户物品兑换表';
+) ENGINE=MyISAM AUTO_INCREMENT=1032 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='用户物品兑换表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -728,7 +580,7 @@ CREATE TABLE `pl_user_product` (
 
 LOCK TABLES `pl_user_product` WRITE;
 /*!40000 ALTER TABLE `pl_user_product` DISABLE KEYS */;
-INSERT INTO `pl_user_product` VALUES (1010,1001,1010,'2016-01-10 00:00:00'),(1028,1001,1011,'0000-00-00 00:00:00'),(1030,1002,1010,'0000-00-00 00:00:00'),(1031,1001,1013,'2016-02-24 17:02:48'),(1032,0,0,'2016-03-14 11:03:47'),(1033,0,0,'2016-03-14 11:03:06');
+INSERT INTO `pl_user_product` VALUES (1010,1001,1010,'2016-01-10 00:00:00'),(1028,1001,1011,'0000-00-00 00:00:00'),(1030,1002,1010,'0000-00-00 00:00:00'),(1031,1001,1013,'2016-02-24 17:02:48');
 /*!40000 ALTER TABLE `pl_user_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -863,4 +715,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-16 14:44:20
+-- Dump completed on 2016-03-07 16:40:02

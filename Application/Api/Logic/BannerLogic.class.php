@@ -24,4 +24,9 @@ class BannerLogic extends \Think\Model{
         $data = $this->Banner->where($mycond)->where('isdel is null')->page($pstr)->order('sort asc')->select();
         return $data;
     }
+
+    public function getBanners($condition=array(), $num = 5){
+        $condition['status'] = '1';
+        return $this->bannerModel->limit($num)->where($condition)->select();
+    }
 }
