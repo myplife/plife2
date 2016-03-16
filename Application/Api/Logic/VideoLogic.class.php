@@ -17,6 +17,7 @@ class VideoLogic extends \Think\Model{
     }
     private $Video;
     private $App;
+	private $videoOrder = array('creatime', 'viewtimes');
 
     public function getimgById($id){
         if($id){

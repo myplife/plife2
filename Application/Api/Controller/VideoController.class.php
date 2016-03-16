@@ -117,13 +117,13 @@ class VideoController extends Controller {
 
 	function movieBanner(){
 		$num = I('post.num','','int') ? I('post.num','','int') : 5;
-		$banner = $this->bannerLogic->getBanners('movie', $num);
+		$banner = $this->bannerLogic->getBanners(array('category' => 'movie'), $num);
 		$this->ajaxReturn($banner);
 	}
 
 	function dramaBanner(){
 		$num = I('post.num','','int') ? I('post.num','','int') : 5;
-		$banner = $this->bannerLogic->getBanners('drama', $num);
+		$banner = $this->bannerLogic->getBanners(array('category' => 'drama'), $num);
 		$this->ajaxReturn($banner);
 	}
 
