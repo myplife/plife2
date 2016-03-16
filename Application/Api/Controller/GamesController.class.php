@@ -69,7 +69,7 @@ class GamesController extends Controller {
 	}
 
 	function category(){
-		$data = $this->categoryLogic->getCategoryList('');
+		$data = $this->categoryLogic->getCategoryList('games');
 		$this->ajaxReturn($data);
 	}
 
