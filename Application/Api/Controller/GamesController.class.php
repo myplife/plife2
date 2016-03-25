@@ -10,7 +10,7 @@ class GamesController extends Controller {
 	private $bannerLogic;
 
 	public function __construct(){
-		$this->gamesLogic = D('app','Logic');
+		$this->gamesLogic = D('Games','Logic');
 		$this->categoryLogic = D('Category','Logic');
 		$this->bannerLogic = D('Banner','Logic');
 	}
@@ -19,40 +19,41 @@ class GamesController extends Controller {
 	/**
 	 * 分页获取全部游戏列表（含搜索）
 	 * 参数：
-	 * @param int page :（可选）分页，默认为1
-	 * @param string search: 搜索关键词，如无，则给所有列表（按分页），暂时只可以用一个关键词，后期增加多关键词搜索
-	 * @param int type :（可选）类型：1:游戏（默认）  2:应用
-	 * @param int sort :（可选）类型：1:最新（默认）  2:最热
-	 * @param string category : (可选) 分类：‘益智休闲’，‘动作冒险’..，默认：全部
-	 *
+	 * @param int pages :（可选）分页，默认为1
+	 * @param string keywords: 搜索关键词，如无，则给所有列表（按分页），暂时只可以用一个关键词，后期增加多关键词搜索
+	 * @param int apptype :（可选）类型：1:游戏（默认）  2:应用
+	 * @param int fitertype :（可选）类型：1:最新（默认）  2:最热
+	 * @param string appcategroy : (可选) 分类：‘益智休闲’，‘动作冒险’..，默认：全部
+	 * @param int rowcount （可选）每页返回记录数
+	 * @param int promotenumber 为推荐时必含参数，推荐视频个数
 	 * @return json : list
 	 * */
 	public function games(){
 		$params = array();
-		if(I('post.type','int') == 1 || I('post.type','','int') == 2){$type = I('post.type','','int');}else{ $type=1; }
-		$params['type'] = $type;
+		if(I('post.apptype','int') == 1 || I('post.apptype','','int') == 2){$type = I('post.apptype','','int');}else{ $type=1; }
+		$params['apptype'] = $type;
 
 		//游戏搜索
-		$search = trim(I('post.search'));
+		$search = trim(I('post.keywords'));
 		if(!empty($search)){
 			$params['name'] =array('like', array("%$search%"),'OR');
 		}
 
 		//是否是推荐
-		$recommend = trim(I('post.recommend'));
+		$recommend = trim(I('post.promotenumber'));
 		if(!empty($recommend)){
 			$params['isrecommend'] = 1;
 		}
 		
 
 		//游戏最新或者最热查询
-		$sort= trim(I('post.sort'));
+		$sort= trim(I('post.fitertype'));
 		if(!in_array($sort, array('1', '2'))){
 			$sort = '1';
 		}
 
 		//按照分类筛选
-		$category = trim(I('post.category'));
+		$category = trim(I('post.appcategroy'));
 		if(!empty($category)){ 
 			$params['category'] = $category; 
 		}
@@ -63,10 +64,66 @@ class GamesController extends Controller {
 			$params['id'] =  $id;
 		}
 
-		$page = I('post.page','','int') ? I('post.page','','int') : 1;
-		$games = $this->gamesLogic->getGames($params, $page, $sort);
+		$page = I('post.pages','','int') ? I('post.pages','','int') : 1;
+
+		$games = null;
+		$promotenumber = I('post.promotenumber','','int') ? I('post.promotenumber','','int') : 0;
+		$rowcount = I('post.rowcount','','int') ? I('post.rowcount','','int') : 0;
+
+		//是否为推荐查询
+		if($promotenumber){
+			//参数是否包含每页返回记录
+			if($rowcount){
+				$games = $this->gamesLogic->getRecomGames($params,$promotenumber,$page,$rowcount);
+			}else{
+				$games = $this->gamesLogic->getRecomGames($params,$promotenumber,$page);
+			}
+		}else{
+			//参数是否包含每页返回记录数
+			if($rowcount){
+				$games = $this->gamesLogic->getGames($params, $page, $sort,$rowcount);
+			}else{
+				$games = $this->gamesLogic->getGames($params, $page, $sort);
+			}
+		}
+
 		$this->ajaxReturn($games);
 	}
+
+	/**
+	 * 获取最高人气游戏
+	 * 参数：
+	 * @param number int (可选)返回记录数量
+	 * @param pages int 分页数，默认为1
+	 * @param rowcount int （可选）每页返回记录数
+	 */
+	function getPopApps(){
+		$page = I('post.pages','','int') ? I('post.pages','','int') : 1;
+		$number = I('post.number','','int') ? I('post.number','','int') : C('POP_NUM');
+		$rowcount = I('post.rowcount','','int') ? I('post.rowcount','','int') : 0;
+
+		$games = $this->gamesLogic->getPopApps($page,$number,$rowcount);
+
+		$this->ajaxReturn($games);
+	}
+
+	/**
+	 * 上月精品游戏推荐
+	 * 参数：
+	 * @param number int (可选)返回记录数量
+	 * @param pages int 分页数，默认为1
+	 * @param rowcount int (可选) 每页返回记录数
+	 */
+	function getMonthPopApps(){
+		$page = I('post.pages','','int') ? I('post.pages','','int') : 1;
+		$number = I('post.number','','int') ? I('post.number','','int') : C('POP_NUM');
+		$rowcount = I('post.rowcount','','int') ? I('post.rowcount','','int') : 0;
+
+		$games = $this->gamesLogic->getMonthPopApps($page,$number,$rowcount);
+
+		$this->ajaxReturn($games);
+	}
+
 
 	function category(){
 		$data = $this->categoryLogic->getCategoryList('games');
@@ -89,8 +146,8 @@ class GamesController extends Controller {
 			$params['ip'] = I('post.ip') ? I('post.ip') : ''; 
 			$params['os'] = I('post.os') ? I('post.os') : ''; 
 			$params['os_version'] = I('post.os_version') ? I('post.os_version') : ''; 
-			$params['third_id'] = $id; 
-			$params['type'] = 'download'; 
+			$params['third_id'] = $id;
+			$params['type'] = 'download';
 			$params['create_date'] = date('Y-m-d H:i:s'); 
 			$this->recordsLogic->addRecords($params);
 			$download_count = $this->gamesLogic->changeDownloadCount($id);

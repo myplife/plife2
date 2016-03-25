@@ -2,6 +2,11 @@
 return array(
 	//'配置项'=>'配置值'
     'MOB_REC_PER_PAGE' => 10,
+	'TIME_BUCKET' => 6,//时间段
+	'DATE_FORM' => '2014-05-11',//开始时间段
+	'DATE_TO' => '2016-03-23',//结束时间段
+	'POP_NUM' => '3',//游戏人气最高数
+	'RECOMMEND_DEFAULT_SORT' => 'creatime',//推荐默认排序
     'HM_PLAY' => array(
         'url' => 'http://hm.play.cn/api/v1/data_sync/get_data',
         'caller' => 'egame_hm_pinet',
