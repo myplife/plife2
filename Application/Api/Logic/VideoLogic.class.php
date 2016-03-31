@@ -54,7 +54,6 @@ class VideoLogic extends \Think\Model{
         else{
             $order = $this->videoOrder[1];
         }
-
        return $this->videoModel->where($mycond)->page($curpage)->order("$order desc")->select();
     }
 

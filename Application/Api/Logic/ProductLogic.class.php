@@ -43,11 +43,14 @@ class ProductLogic extends \Think\Model{
         return $result;
     }
 
+	/**
     public function getProductDetail($productid){
         $data = $this->Product->where(array('id'=>$productid))->find();
         return $data;
     }
+	 * */
 
+	/*
     public function exchangeProductByScore($userid,$productid){
         $adddata = array(
             'userid' => $userid,
@@ -71,11 +74,44 @@ class ProductLogic extends \Think\Model{
         }
         return $result;
     }
+	*/
 
-    public function searchProductByString($userid,$searchstring){
-        $con['productname'] = array('like','%'.$searchstring.'%');
-        $result = $this->getProductListByCategoryId($con,$userid);
-        return $result;
-    }
+   //public function searchProductByString($userid,$searchstring){
+    //    $con['productname'] = array('like','%'.$searchstring.'%');
+     //   $result = $this->getProductListByCategoryId($con,$userid);
+     //   return $result;
+   // }
+
+	/**
+	 *获取商城商品（含搜索）
+	 * 参数：
+	 * @param parama array
+	 */
+	public function getPointProducts($params=array()){
+		$params['isonline'] = '0';
+		if(isset($params['id'])){
+			$data = $this->Product->where($params)
+					->field('id productid,productname,score point,imagepath imgurl,content productshortdesc,price,lastnums amount,contentdesc productlongdesc')->select();
+		}else{
+			$data = $this->Product->where($params)
+					->field('id productid,productname,score point,imagepath imgurl,content productshortdesc')->select();
+		}
+		return $data;
+	}
+
+	/**
+	 * 积分兑换
+	 * 参数：
+	 * @param params array
+	 */
+	public function exchangePoint($params=array(),$userscore=0,$productnum=0,$productscore=0){
+		//更改用户积分
+		$this->Admin->where('uid='.$params['userid'])->save(array('totalscore'=>$userscore-$productscore));
+		//更改产品数量
+		$this->Product->where('id='.$params['productid'])->save(array('lastnums'=>$productnum-1));
+		//保存兑换记录
+		$params['exchangetimes'] = date('Y-m-d H:i:s');
+		$this->Userproduct->add($params);
+	}
 
 }

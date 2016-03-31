@@ -26,7 +26,7 @@ class BookLogic extends \Think\Model{
         return $num;
     }
 
-    public function getBookList($cond=array(), $p){
+   /* public function getBookList($cond=array(), $p){
         $mycond = array();
         if(is_array($cond) && count($cond)>0){
             $mycond = $cond;
@@ -35,6 +35,7 @@ class BookLogic extends \Think\Model{
         $data = $this->Book->join('pl_bookparam on pl_book.id = pl_bookparam.bookid')->where($mycond)->where('pl_book.isdel is null')->page($pstr)->order('pl_bookparam.id asc')->select();
         return $data;
     }
+   */
 
     public function getBookById($id){
         if($id){
@@ -121,9 +122,28 @@ class BookLogic extends \Think\Model{
         }
 
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->Readrecord->field('pl_readrecord.id,pl_readrecord.chapter,pl_readrecord.uid,pl_bookparam.name as bookname')->join('pl_bookparam on pl_readrecord.bookid = pl_bookparam.bookid')
+        $data = $this->Readrecord->field('pl_readrecord.id,pl_readrecord.chapter,pl_readrecord.uid,pl_bookparam.name as bookname')
+		        ->join('pl_bookparam on pl_readrecord.bookid = pl_bookparam.bookid')
             ->where($mycond)->where('pl_readrecord.isdel is null')->page($pstr)->order('pl_bookparam.id asc')->select();
         return $data;
     }
+
+
+	/**
+	 *图书查询（含搜素）
+	 * 带完善
+	 */
+	public function getBookList(){
+		$params['_string'] = 'bk.id = bkp.bookid and bk.isdel is null';
+		//获取所有上架书籍
+		$data = $this->Book->table('__BOOK__ bk,__BOOKPARAM__ bkp')->field('bk.id bkid,bkp.name bkname,bkp.img bkimg,bkp.id,bkp.chaptercontent bkshortdesc')
+				->where($params)->group('bk.id')->select();
+
+		foreach($data as $key=>$values){
+			$data[$key]['drama'] = $this->Bookparam->field('id dramaid,chapteraddress url,chapter,chaptertitle')
+					->where('pid='.$values['id'])->order('id')->select();
+		}
+		return $data;
+	}
 
 }

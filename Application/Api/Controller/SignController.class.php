@@ -26,6 +26,7 @@ class SignController extends Controller {
 
         $data = array();
         if($stiffdays < 1){
+	        $rst = '-1';
             $msg = '今天已签到，请明天再来。';
         }else{
             $sign_data = array(
@@ -47,6 +48,7 @@ class SignController extends Controller {
                 }
                 $msg = '恭喜您，连续签到'.$days.'天。';
             }
+	        $rst = '0';
             $sign_data['score'] = $score;
             $sign_data['days'] = $days;
             $signid = $this->UserSign->add($sign_data);
@@ -61,6 +63,7 @@ class SignController extends Controller {
             $data['score'] = $score;
             $data['totalscore'] = $ad['totalscore']+$score;
         }
+	    $data['rst'] = $rst;
         $data['msg'] = $msg;
         $this->ajaxReturn($data);
     }

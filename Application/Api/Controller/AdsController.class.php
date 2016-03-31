@@ -34,6 +34,7 @@ class AdsController extends Controller {
         $res = $this->bannerLogic->getBannerList($where,$p);
         $this->ajaxReturn($res);
     }
+
     /**
      * 游戏幻灯片信息获取接口
      * @param int t : （可选）类型：1:游戏（默认）  2:应用
@@ -60,4 +61,14 @@ class AdsController extends Controller {
         }
         $this->ajaxReturn($cover);
     }
+
+	/**
+	 * 文章列表
+	 * @param int acticletype : 0.厂区培训 1.厂区说明
+	 *
+	 * @return json data
+	 */
+	public function getArticleList(){
+
+	}
 }
