@@ -38,6 +38,7 @@ return array(
 
 
 
+
 		'video/columns'      => 'Api/Video/columns',     // 视频列表
 		'video/category'     => 'Api/Video/category',    // 视频分类
 		'video/areas'        => 'Api/Video/areas',       // 视频区域

@@ -19,7 +19,7 @@
                 <table class="table table-striped" id="responsiveTable">
                     <thead>
                     <tr>
-                        <th width="25%">position名称</th>
+                        <th width="25%">位置名称</th>
                         <th width="15%">高度</th>
                         <th width="10%">宽度</th>
                         <th width="25%">操作</th>
@@ -33,7 +33,7 @@
                             <td>{$vo.width}</td>
                             <td class="center">
                                 <a href="{:U('Ads/editposition',array('id'=>$vo['id']))}" type="button" class="btn btn-outline btn-primary btn-xs">修改</a>
-                                <a type="button" class="btn btn-outline btn-primary btn-xs" href="{:U('Resource/delposition',array('id'=>$vo['id']))}" onclick="if(!confirm('您是否确定要删除该应用记录？？')){return  false;}">删除</a>
+                                <a type="button" class="btn btn-outline btn-primary btn-xs" href="{:U('Ads/delposition',array('id'=>$vo['id']))}" onclick="if(!confirm('您是否确定要删除该广告位置？')){return  false;}">删除</a>
                             </td>
                         </tr>
                     </volist>

@@ -25,11 +25,12 @@
                             </strong>
                         </div>
                     </if>
-                    <form id="formToggleLine" class="form-horizontal no-margin form-border" data-validate="parsley" novalidate action="__ACTION__" method="post">
+
+                    <form id="formToggleLine" class="form-horizontal no-margin form-border" data-validate="parsley" novalidate action="__ACTION__" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="col-lg-2 control-label">产品名称</label>
                             <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="请输入产品名称"  data-required="true" name="name" value="{$data.name}">
+                                <input class="form-control" type="text" placeholder="请输入产品名称"  data-required="true" name="name" value="{$data.productname}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -47,40 +48,52 @@
                         <div class="form-group">
                             <label class="col-lg-2 control-label">市场价格</label>
                             <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="请输入产品市场价格"  data-required="true" name="score" value="{$data.score}">
+                                <input class="form-control" type="text" placeholder="请输入产品市场价格"  data-required="true" name="price" value="{$data.price}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">产品数量</label>
                             <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="请输入产品数量"  data-required="true" name="score" value="{$data.score}">
+                                <input class="form-control" type="text" placeholder="请输入产品数量"  data-required="true" name="totalnums" value="{$data.totalnums}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">产品剩余数量</label>
                             <div class="col-lg-10">
-                                <input class="form-control" type="text" placeholder="请输入产品剩余数量"  data-required="true" name="score" value="{$data.score}">
+                                <input class="form-control" type="text" placeholder="请输入产品剩余数量"  data-required="true" name="lastnums" value="{$data.lastnums}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">是否上线</label>
                             <div class="col-lg-10">
-                                <input type="radio" name="isonline"  value="1" checked="checked"/>上线
-                                <input type="radio" name="isonline"  value="0"/>下线
+                                <select name="isonline" id="isonline" class="form-control">
+                                    <if condition="1 eq $data['isonline']">
+                                        <option value="1" selected="selected">是</option>
+                                        <option value="0">否</option>
+                                    <else/>
+                                        <option value="1">是</option>
+                                        <option value="0" selected="selected">否</option>
+                                    </if>
+                                </select>
+                                <!--<if condition="$data.isonline eq 1">-->
+                                    <!--<input type="radio" name="isonline"  value="1" checked="checked"/>上线-->
+                                    <!--<input type="radio" name="isonline"  value="0"/>下线-->
+                                <!--</else>-->
+                                    <!--<input type="radio" name="isonline"  value="1" />上线-->
+                                    <!--<input type="radio" name="isonline"  value="0" checked="checked"/>下线-->
+                                <!--</if>-->
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">产品LOGO</label>
                             <div class="col-lg-10">
-                                <input type="file" name="logopath" onchange="PreviewImage(this,'back')"/>
-                                <img width="100" src="" id="logopath"/>
+                                <input class="form-control" type="file" name="logoimg">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-2 control-label">产品图片</label>
                             <div class="col-lg-10">
-                                <input type="file" name="imagepath" onchange="PreviewImage(this,'back')"/>
-                                <img width="100" src="" id="imagepath"/>
+                                <input class="form-control" type="file" name="productimg">
                             </div>
                         </div>
                         <div class="form-group">
@@ -88,9 +101,13 @@
                             <div class="col-lg-10">
                                 <select name="cid" id="cid" class="form-control">
                                     <option value="0">顶级分类</option>
-                                    <foreach name="cate" item="v">
-                                        <option value="{$v.id}">{$v.html} {$v.title}</option>
-                                    </foreach>
+                                    <volist name="cate" id="v">
+                                        <if condition="$v.id eq $data['categoryid']">
+                                            <option value="{$v.id}" selected="selected">{$v.html} {$v.title}</option>
+                                        <else/>
+                                            <option value="{$v.id}">{$v.html} {$v.title}</option>
+                                        </if>
+                                    </volist>
                                 </select>
                             </div>
                         </div>
@@ -100,7 +117,7 @@
                                 <input type="hidden" name="act" value="{$act}"/>
                                 <input type="hidden" name="id" value="{$data.id}"/>
                                 <button type="submit" class="btn btn-success">保存</button>
-                                <a href="{:U('System/rolemgr')}" type="reset" class="btn btn-danger">取消</a>
+                                <a href="{:U('Product/index')}" type="reset" class="btn btn-danger">取消</a>
                             </div>
                         </div>
                     </form>
@@ -113,12 +130,12 @@
 <block name="extjs">
     <script language="javascript" type="text/javascript">
         $(function(){
-            $("select[name='cid']").find('option').each(function(){
-                var self = this;
-                if($(self).val()== {$data['categoryid']}){
-                    $(self).attr('selected',true);
-                }
-            });
+//            $("select[name='cid']").find('option').each(function(){
+//                var self = this;
+//                if($(self).val()== {$data['categoryid']}){
+//                    $(self).attr('selected',true);
+//                }
+//            });
         });
     </script>
     <script type="text/javascript">

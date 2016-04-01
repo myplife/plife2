@@ -14,12 +14,10 @@ return array(
     'ITEM_FILE_SIZE' => 52428800,
     'ITEM_IMG_PATH' => 'Upload/Img/',
     'ITEM_FILE_PATH' => 'Upload/File/',
-    'ITEM_PRODUCT_PATH' => 'Upload/Product/',
     'ADMIN_REC_PER_PAGE'=>10,
     'AUTOLOAD_NAMESPACE' => array(
-		    'CommLib' => COMMON_PATH.'CommLib',
+        'CommLib' => COMMON_PATH.'CommLib',
     ),
-
     'LOAD_EXT_CONFIG'		=> 'route'
     //'TMPL_EXCEPTION_FILE'   =>  './Application/Admin/View/Public/404.html',
     //'ERROR_PAGE'=>'./Application/Admin/View/Public/404.html',

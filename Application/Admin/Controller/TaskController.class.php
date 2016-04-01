@@ -58,14 +58,14 @@ class TaskController extends Controller {
         if (I('post.act') == 'edit') {
             $title = I('post.title');
             $id=I('post.id','','int');
-            $cond = array();
-            $cond['title'] = $title;
-            $ret = $this->Task->where($cond)->find();
-            if ($ret) {
-                $this->assign('errcode', '1');
-                $this->data = I('post.');
-                $this->display("Task/taskedit");
-            } else {
+            //$cond = array();
+            //$cond['title'] = $title;
+            //$ret = $this->Task->where($cond)->find();
+            //if ($ret) {
+            //  $this->assign('errcode', '1');
+            //  $this->data = I('post.');
+            //    $this->display("Task/taskedit");
+            //} else {
                 $newdata = array(
                     'title' => I('post.title'),
                     'content' => I('post.content'),
@@ -76,7 +76,7 @@ class TaskController extends Controller {
                 );
                 $this->Task->where('id=' . $id)->save($newdata);
                 $this->redirect('Task/index');
-            }
+            //}
         } else {
             $id=I('get.id','','int');
             if ($id) {

@@ -14,6 +14,7 @@ class AdminuserController extends Controller {
                 if((int)$admininfo['status'] == 1){
                     $this->errmsg  = '账户被冻结无法登陆！';
                 }else{
+                    echo 'hello3';
                     $tpass = TransPassUseSalt(I('post.pass'), $admininfo['salt']);
                     if($tpass == $admininfo['password']){
                         session('expire',300);

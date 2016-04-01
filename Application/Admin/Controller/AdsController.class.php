@@ -231,15 +231,23 @@ class AdsController extends Controller {
     }
 
     public function delposition(){
-        $this->checkPriv('1_3_4');
-        $id = I('get.id','','int');
+//        $this->checkPriv('1_3_4');
+//        $id = I('get.id','','int');
+//        if($id){
+//            $data['isdel']= date("Y-m-d H:i:s");;
+//            $this->Position->where('id='.$id)->save($data);
+//            $from = I('server.HTTP_REFERER');
+//            redirect($from);
+//        }else{
+//            $this->error('该记录不存在');
+//        }
+        //$this->checkPriv('9_1_4');
+        $id=I('get.id','','int');
         if($id){
-            $data['isdel']= date("Y-m-d H:i:s");;
-            $this->Position->where('id='.$id)->save($data);
-            $from = I('server.HTTP_REFERER');
-            redirect($from);
+            $this->Position->where('id='.$id)->delete();
+            $this->redirect('Ads/positionmgr');
         }else{
-            $this->error('该记录不存在');
+            $this->error('没有该记录');
         }
     }
 

@@ -87,7 +87,7 @@ class CommentController extends Controller {
             $type=array(
                 '0'=>array('id'=>'0','value'=>'请选择'),
                 '1'=>array('id'=>'1','value'=>'视频'),
-                '2'=>array('id'=>'2','value'=>'app'),
+                '2'=>array('id'=>'2','value'=>'游戏'),
             );
             $this->assign('types',$type);
             $this->display("Comment/commentedit");

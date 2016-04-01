@@ -13,6 +13,7 @@ class IndexFunctionController extends Controller
     private $IndexFunction;
     private $Function;
 
+    public function index(){}
     /**
      * 首页功能文字描述查询接口
      * @return json : data
@@ -22,6 +23,7 @@ class IndexFunctionController extends Controller
         $data = $this->IndexFunction->getFunctionList();
         $this->ajaxReturn($data);
     }
+
 
 	/**
 	 * DNS接口服务
@@ -134,6 +136,7 @@ class IndexFunctionController extends Controller
 
 		$this->ajaxReturn($data);
 	}
+
 
 
 }
