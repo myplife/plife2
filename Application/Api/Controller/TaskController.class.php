@@ -36,6 +36,7 @@ class TaskController extends Controller {
         $this->ajaxReturn($data);
     }
 
+
     public function CompleteTask(){
         $userid = I('post.userid');
         $taskid = I('post.taskid');
@@ -50,6 +51,9 @@ class TaskController extends Controller {
         }
         $this->ajaxReturn($data);
     }
+
+
+
 
     public function GetUserTaskRecord(){
         $userid = I('post.userid');

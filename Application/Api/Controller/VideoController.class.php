@@ -20,7 +20,7 @@ class VideoController extends Controller {
 	 * 参数：
 	 * @param int pages :（可选）分页，默认为1
 	 * @param string keywords: 搜索关键词，如无，则给所有列表（按分页），暂时只可以用一个关键词，后期增加多关键词搜索
-	 * @param int videotype :（可选）类型：1:电影（默认）  2:电视剧
+	 * @param int videotype :（可选）类型：1:电影（默认）  2:电视剧 0:所有
 	 * @param int filtertype :（可选）类型：1:最新（默认）  2:最热
 	 * @param string videocategory : (可选) 口味：‘剧情’，‘动作’，...，默认：全部
 	 * @param string area : (可选) 国家：‘中国’，‘美国’，...，默认：全部
@@ -32,8 +32,11 @@ class VideoController extends Controller {
 	 * */
 	public function videos(){
 		$params = array();
-		if(I('post.videotype','int') == 1 || I('post.videotype','','int') == 2){$type = I('post.videotype','','int');}else{ $type=1; }
+		if(I('post.videotype','','int') == 1 || I('post.videotype','','int') == 2 ||I('post.videotype','','int') == 0){$type = I('post.videotype','','int');}else{ $type=1; }
 		$params['type'] = $type;
+		if($params['type'] == 0){
+			unset($params['type']);
+		}
 
 		//视频搜索
 		$search = trim(I('post.keywords'));

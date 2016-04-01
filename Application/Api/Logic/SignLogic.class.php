@@ -11,7 +11,7 @@ namespace Api\Logic;
 
 class SignLogic extends \Think\Model{
 
-    private $User_sign;
+       private $User_sign;
 
     public function __construct(){
         $this->User_sign = M('User_sign');

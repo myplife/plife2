@@ -144,8 +144,10 @@ class GamesLogic extends \Think\Model{
 		$cond = array();
 		$cond['opt.operation'] = 0;
 		$cond['app.status'] = 1;
+		$cond['app.apptype'] = 1;
 		$cond['opt.creatime'] = array('between',array($timefrom,$timeto));
-		$cond['_string'] = 'app.uuid = opt.objid';
+		$cond['_string'] = 'app.id = opt.objid';
+
 		if($number<$limit){
 			return $this->gamesModel->table('__OPERATION__ opt,__APP__ app')->field('app.*,count(opt.objid) as num')->where($cond)->group('opt.objid')->order('num desc')->limit(0,$number)->select();
 		}else if($number%$limit == 0){

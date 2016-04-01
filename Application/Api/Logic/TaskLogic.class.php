@@ -14,15 +14,18 @@ class TaskLogic extends \Think\Model{
     private $Admin;
     private $Task;
     private $Usertask;
+	private $UserSing;
 
     public function __construct(){
         $this->Admin = M('Admin');
         $this->Task = M('Task');
         $this->Usertask = M('User_task');
+	    $this->UserSign = M('UserSign');
     }
 
     public function getTaskListByCategoryId($userid,$categoryid){
-        $data = $this->Task->where(array('categoryid'=>$categoryid))->field('id,title,score,categoryid')->select();
+        $data = $this->Task->where(array('categoryid'=>$categoryid))->field('id taskid,title,score,categoryid')->select();
+
         foreach($data as $key => $row){
             $taskid = $row['id'];
             if($this->Usertask->where(array('userid'=>$userid,'taskid'=>$taskid))->count() > 0){
@@ -34,11 +37,38 @@ class TaskLogic extends \Think\Model{
         return $data;
     }
 
+	/**
+	 * 获取任务列表
+	 * @param $userid
+	 * @return array data
+	 */
     public function getTaskList($userid){
-        $result[0] = $this->getTaskListByCategoryId($userid,46);
-        $result[1] = $this->getTaskListByCategoryId($userid,47);
-        $result[2] = $this->getTaskListByCategoryId($userid,48);
-        return $result;
+       // $result[0] = $this->getTaskListByCategoryId($userid,46);
+       // $result[1] = $this->getTaskListByCategoryId($userid,47);
+        //$result[2] = $this->getTaskListByCategoryId($userid,48);
+	    $data = $this->Task->table('__TASK__ task,__CATEGORY__ category')->field('task.id taskid,task.categoryid,task.title,task.score,category.title categoryname')
+			    ->where('task.categoryid = category.id')->select();
+	    foreach($data as $key=> $row){
+			$taskid = $row['taskid'];
+		    if($taskid == 1047){
+			    $starttime = date('Y-m-d H:i:s',strtotime(date('Y-m-d')));
+			    $endtime = date('Y-m-d H:i:s',strtotime(date('Y-m-d',strtotime('+1 days'))));
+			    $params['userid'] = $userid;
+			    $params['signtimes'] = array('between',array($starttime,$endtime));
+			    if($this->UserSign->where($params)->count() > 0){
+					$data[$key]['status'] = 1;
+			    }else{
+				    $data[$key]['status'] = 0;
+			    }
+		    }else{
+				if($this->Usertask->where(array('userid'=>$userid,'taskid'=>$taskid))->count() > 0){
+					$data[$key]['status'] = 1;
+				}else{
+					$data[$key]['status'] = 0;
+				}
+		    }
+	    }
+        return $data;
     }
 
     public function getTaskRecord($userid,$taskid){
