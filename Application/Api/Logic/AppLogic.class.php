@@ -21,7 +21,7 @@ class AppLogic extends \Think\Model{
             $mycond = $cond;
         }
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->App->field('id,icon,name,imgs')->where($mycond)->where('isdel is null')->page($pstr)->order('creatime desc')->select();
+        $data = $this->App->field('id,imgs imgurl')->where($mycond)->where('isdel is null')->page($pstr)->order('creatime desc')->select();
         return $data;
     }
 

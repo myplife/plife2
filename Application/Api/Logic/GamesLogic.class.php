@@ -13,11 +13,13 @@ class GamesLogic extends \Think\Model{
 
 	private $gamesModel;
 	private $operationModel;
+	private $Comment;
 	private $appOrder = array(1=>"creatime", 2=>"downtimes");   // 排序关键词，1:时间，2:热门
 
 	public function __construct(){
 		$this->gamesModel = M('app');
 		$this->operationModel = M('operation');
+		$this->Comment = M('Comment');
 	}
 
 	/**
@@ -47,6 +49,8 @@ class GamesLogic extends \Think\Model{
 			$order = $this->appOrder[1];
 		}
 		$data = $this->gamesModel->where($mycond)->page($curpage)->order("$order desc")->select();
+		$data1 = array(array('totalcount'=>$this->gamesModel->where($mycond)->count()));
+		$data = array_merge($data,$data1);
 		return $data;
 	}
 
@@ -160,6 +164,26 @@ class GamesLogic extends \Think\Model{
 
 			}
 		}
+	}
+
+	/**
+	 * 游戏评论保存
+	 * @param params array
+	 * @return int result
+	 */
+	public function saveAppComment($params){
+		$result = $this->Comment->data($params)->add();
+		return $result;
+	}
+
+	/**
+	 * 游戏评论获取
+	 * @param objid : int
+	 * @return data : array
+	 */
+	public function getAppComments($params){
+		$data = $this->Comment->field('objid,userid,score,content comment')->where($params)->select();
+		return $data;
 	}
 
 	function changeDownloadCount($id){

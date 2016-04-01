@@ -42,9 +42,9 @@ class AdsController extends Controller {
      */
     public function getappimgs()
     {
-        $t = I('post.t', '', 'int') ? I('post.t', '', 'int') : 1;
+        $t = I('post.type', '', 'int') ? I('post.type', '', 'int') : 1;
         $mycond['apptype'] = $t;
-        $data = $this->appLogic->getAppList($mycond);
+        $data = $this->appLogic->getAppList($mycond,1);
         $this->ajaxReturn($data);
     }
 
@@ -54,10 +54,10 @@ class AdsController extends Controller {
      * @return json : data
      */
     public function getimg(){
-        $uuid = I('post.uuid');
+        $uuid = I('post.id');
         $data = $this->videoLogic->getimgById($uuid);
         foreach($data as $v){
-            $cover =  C('MMS_SERVER').'/'.$uuid.'/'.$v['cover'];
+            $cover['img'] =  C('MMS_SERVER').'/'.$uuid.'/'.$v['cover'];
         }
         $this->ajaxReturn($cover);
     }

@@ -82,7 +82,27 @@ class recordsLogic extends \Think\Model{
 				return $data;
 			}
 		}
+	}
 
+
+	/**
+	 * 关键字查询
+	 * @param params array
+	 * @retrun data array
+	 */
+	public function getKeywords($params){
+		$data = null;
+		if($params['operation'] == '21' || $params['operation'] == '22'){
+			$data = $this->Operation->where('operation='.$params['operation'])->field('public keyword,count(public) num')
+					->group('public')->order('num desc')->limit(0,14)->select();
+		}else{
+			$data = $this->Operation->where('operation=21')->field('public keyword,count(public) num')
+					->group('public')->order('num desc')->limit(0,7)->select();
+			$data1 = $this->Operation->where('operation=22')->field('public keyword,count(public) num')
+					->group('public')->order('num desc')->limit(0,7)->select();
+			$data = array_merge($data,$data1);
+		}
+		return $data;
 	}
 }
 
