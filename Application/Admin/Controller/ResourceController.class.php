@@ -268,6 +268,7 @@ class ResourceController extends Controller {
             sort($types);
             $this->assign('types',$types);
             $this->assign('banners',$banner_args);
+            $this->title = '添加应用';
             $this->display("Resource/appedit");
         }
     }
@@ -328,6 +329,7 @@ class ResourceController extends Controller {
 
             $this->assign('files',array($data['filepath']));
             $this->data = $data;
+            $this->title = '编辑应用';
             $this->display("Resource/appedit");
         }
     }
@@ -506,6 +508,7 @@ class ResourceController extends Controller {
             $types[] = array('id'=>'0','title'=>'=请选择=');
             sort($types);
             $this->assign('types',$types);
+            $this->title = '添加游戏';
             $this->display("Resource/gameedit");
         }
     }
@@ -555,6 +558,7 @@ class ResourceController extends Controller {
             $types[] = array('id'=>'0','title'=>'=请选择=');
             sort($types);
             $this->assign('types',$types);
+            $this->title = '游戏编辑';
             $this->display("Resource/gameedit");
         }
     }
@@ -612,16 +616,20 @@ class ResourceController extends Controller {
         $upload->rootPath      = C('ITEM_IMG_PATH');
         $upload->subName       = array('date', 'Ym');
         $upfinfo = $upload->upload();
+
         if(!$upfinfo) {// 上传错误提示错误信息
+            print_r($upfinfo);die;
             $ret['error'] = true;
             $ret['result'] = $upload->getError();
             //$this->error($upload->getError());
         }else{// 上传成功
+            //exit('sss');
             foreach($upfinfo as $k=>&$file){
                 $file['fullpath'] = $upload->rootPath.$file['savepath'].$file['savename'];
             }
             $ret['error'] = false;
             $ret['result'] = $upfinfo;
+            //var_dump($ret);die;
         }
         return $ret;
     }

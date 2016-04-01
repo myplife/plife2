@@ -33,23 +33,31 @@ class ProductController extends Controller {
         $this->assign('cate',$cates);
         if (I('post.act') == 'add') {
             $name = I('post.name');
-            $cond = array('name' => $name);
+            $cond = array('productname' => $name);
             $productinfo = $this->Product->where($cond)->select();
             if ($productinfo) {
                 $this->assign('errcode', '1');  // 用户角色已存在
                 $this->data = I('post.');
                 $this->display('Product/productedit');
             } else {
+                $uploadimg = $this->upimgfile();
+                $logopath = $uploadimg['result']['logoimg']['fullpath'];
+                $productpath = $uploadimg['result']['productimg']['fullpath'];
+
+                if($logopath['error'] == false){
+                    $newdata['logopath'] = $logopath['result']['coverimg']['fullpath'];
+                }
                 $newdata = array(
-                    'name' => I('post.name'),
-//                    'content' => I('post.content'),
-//                    'logopath' => I('post.logopath'),
-//                    'score' => I('post.score'),
-//                    'categoryid' => I('post.category'),
-//                    'price' => I('post.price'),
-//                    'totalnums' => I('post.totalnums'),
-//                    'lastnums' => I('post.lastnums'),
-//                    'isonline' => I('post.isonline'),
+                    'productname' => I('post.name'),
+                    'content' => I('post.content'),
+                    'logopath' => $logopath,
+                    'imagepath' => $productpath,
+                    'score' => I('post.score'),
+                    'categoryid' => I('post.category'),
+                    'price' => I('post.price'),
+                    'totalnums' => I('post.totalnums'),
+                    'lastnums' => I('post.lastnums'),
+                    'isonline' => I('post.isonline'),
                 );
                 $this->Product->add($newdata);
                 $this->redirect('Product/index');
@@ -66,30 +74,30 @@ class ProductController extends Controller {
         $cates = getSortedCategory($this->categoryLogic->getCategoryList());
         $this->assign('cate',$cates);
         if (I('post.act') == 'edit') {
-            $name = I('post.name');
             $id=I('post.id','','int');
-            $cond = array();
-            $cond['name'] = $name;
-            $ret = $this->Product->where($cond)->find();
-            if ($ret) {
-                $this->assign('errcode', '1');
-                $this->data = I('post.');
-                $this->display("Product/productedit");
-            } else {
-                $newdata = array(
-                      'name' => I('post.name'),
-//                    'content' => I('post.content'),
-//                    'logopath' => I('post.logopath'),
-//                    'score' => I('post.score'),
-//                    'categoryid' => I('post.category'),
-//                    'price' => I('post.price'),
-//                    'totalnums' => I('post.totalnums'),
-//                    'lastnums' => I('post.lastnums'),
-//                    'isonline' => I('post.isonline'),
-                );
-                $this->Product->where('id=' . $id)->save($newdata);
-                $this->redirect('Product/index');
+
+            $uploadimg = $this->upimgfile();
+            $logopath = $uploadimg['result']['logoimg']['fullpath'];
+            $productpath = $uploadimg['result']['productimg']['fullpath'];
+
+            if($logopath['error'] == false){
+                $newdata['logopath'] = $logopath['result']['coverimg']['fullpath'];
             }
+
+            $newdata = array(
+                'productname' => I('post.name'),
+                'content' => I('post.content'),
+                'logopath' => $logopath,
+                'imagepath' => $productpath,
+                'score' => I('post.score'),
+                'categoryid' => I('post.cid'),
+                'price' => I('post.price'),
+                'totalnums' => I('post.totalnums'),
+                'lastnums' => I('post.lastnums'),
+                'isonline' => I('post.isonline'),
+            );
+            $this->Product->where('id=' . $id)->save($newdata);
+            $this->redirect('Product/index');
         } else {
             $id=I('get.id','','int');
             if ($id) {
@@ -100,6 +108,7 @@ class ProductController extends Controller {
             }
         }
     }
+
 
     public function delproduct(){
         //$this->checkPriv('9_1_4');
@@ -122,4 +131,24 @@ class ProductController extends Controller {
         $this->display();
     }
 
+    private function upimgfile(){
+        $ret = array();
+        $upload =  new \Think\Upload();
+        $upload->maxSize       = C('ITEM_IMG_MAXSIZE');;
+        $upload->exts          = array('jpg', 'jpeg', 'png', 'gif', 'bmp');
+        $upload->rootPath      = C('ITEM_PRODUCT_PATH');
+        $upload->subName       = array('date', 'Ym');
+        $upfinfo = $upload->upload();
+        if(!$upfinfo) {// 上传错误提示错误信息
+            $ret['error'] = true;
+            $ret['result'] = $upload->getError();
+        }else{// 上传成功
+            foreach($upfinfo as $k=>&$file){
+                $file['fullpath'] = $upload->rootPath.$file['savepath'].$file['savename'];
+            }
+            $ret['error'] = false;
+            $ret['result'] = $upfinfo;
+        }
+        return $ret;
+    }
 }

@@ -240,4 +240,60 @@ function sendMail($to, $title, $content) {
     $mail->AltBody = "这是一个纯文本的身体在非营利的HTML电子邮件客户端"; //邮件正文不支持HTML的备用显示
     return($mail->Send());
 }
+
+function uploadImage($data= '',$upfile){
+
+        if($data['size']){
+            $type = $data['type'];
+            $size = $data['size'];
+            $name = $data['tmp_name'];
+            $error = $data['error'];
+            if($error == 0){
+                switch($type){
+                    case "image/jpeg":
+                        $tp = '.jpg';
+                        break;
+                    case "image/pjpeg":
+                        $tp = '.jpg';
+                        break;
+                    case "image/gif":
+                        $tp = '.gif';
+                        break;
+                    case "image/png":
+                        $tp = '.png';
+                        break;
+                    case "image/x-png":
+                        $tp = '.png';
+                        break;
+                    default:
+                        $tp = false;
+                }
+                if(!$tp){
+                    return '上传失败，图片类型不正确';
+                }else if($size > 2000000){
+                    return '上传失败，图片大小不能超过200M';
+                }else{
+                    $file_path = getcwd().$upfile.date('Y-m-d',time()).'/';
+
+                    if(!file_exists($file_path)){
+                        if(!mkdir($file_path, 0777)){
+                            return '创建目录失败';
+                        }
+                    }
+                    $rand = rand(0,9999).$tp;
+                    if(move_uploaded_file($name,$file_path.$rand)){
+                        $picpath = '/admin'.$upfile.date('Y-m-d',time()).'/'.$rand;
+                        return $picpath;
+                    }else{
+                        return '图片上传失败';
+                    }
+                }
+            }else{
+                return '上传失败，配置出错';
+            }
+        }else{
+            return '上传失败';
+        }
+
+}
 ?>

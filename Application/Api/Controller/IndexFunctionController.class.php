@@ -22,4 +22,9 @@ class IndexFunctionController extends Controller
         $data = $this->functionLogic->getFunctionList();
         $this->ajaxReturn($data);
     }
+
+	public function getDNSAddress(){
+		$data['mss'] = 'ss';
+		$this->ajaxReturn($data);
+	}
 }
