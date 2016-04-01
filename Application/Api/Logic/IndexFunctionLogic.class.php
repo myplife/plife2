@@ -54,6 +54,7 @@ class IndexFunctionLogic extends \Think\Model{
 	 */
 	public function getNotices($params = array(),$type = 1){
 		$cont['status'] = '1';
+		$cont['type'] = '1';
 		//获取所有有效系统消息
 		$data = $this->Sysmsg->field('id,title,content,creatime date')->where($cont)->select();
 		//未读新消息数量num
@@ -83,6 +84,7 @@ class IndexFunctionLogic extends \Think\Model{
 	 * @return int data :操作结果
 	 */
 	public function collectComments($params){
+		$params['type'] = '2';
 		$data = $this->Sysmsg->data($params)->add();
 		return $data;
 	}

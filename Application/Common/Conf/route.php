@@ -29,6 +29,11 @@ return array(
 		'Api/GetNotices'     => 'Api/IndexFunction/getNotices',             //系统消息
 		'Api/CheckNotices'   => 'Api/IndexFunction/checkNotices',           //系统消息检查
 		'Api/CollectComments'=> 'Api/IndexFunction/collectComments',        //意见收集
+		'Api/SaveAppComment' => 'Api/Games/saveAppComment',                 //游戏评论保存
+		'Api/GetAppComments' => 'Api/Games/getAppComments',                 //游戏评论获取
+		'Api/GetSlideShow'   => 'Api/Ads/getappimgs',                       //幻灯片信息
+		'Api/GetImageUrl'    => 'Api/Ads/getimg',                           //图片信息
+		'Api/GetKeywords'    => 'Api/Record/getKeywords',                   //关键字查询（获取记录）
 
 
 

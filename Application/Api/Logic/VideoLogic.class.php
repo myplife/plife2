@@ -21,7 +21,7 @@ class VideoLogic extends \Think\Model{
 
     public function getimgById($id){
         if($id){
-            $cond['uuid'] = $id;
+            $cond['uid'] = $id;
             $data = $this->Video->field('cover')->where($cond)->select();
             return $data;
         }else{
@@ -54,7 +54,12 @@ class VideoLogic extends \Think\Model{
         else{
             $order = $this->videoOrder[1];
         }
-       return $this->videoModel->where($mycond)->page($curpage)->order("$order desc")->select();
+       $data =  $this->videoModel
+		       ->field('id,uuid,name,cover,type,duratime,director,actors,setnum,years,country,category,intro,imgs,provider,isrecommend,viewtimes,filepath,creatime')
+		       ->where($mycond)->page($curpage)->order("$order desc")->select();
+	    $data1 = array(array('totalcount'=>$this->videoModel->where($mycond)->count()));
+	    $data = array_merge($data,$data1);
+	    return $data;
     }
 
 	/**

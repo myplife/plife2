@@ -5,12 +5,12 @@ use Think\Controller;
 
 class GamesController extends Controller {
 
-	private $gamesLogic;
+	private $GamesLogic;
 	private $categoryLogic;
 	private $bannerLogic;
 
 	public function __construct(){
-		$this->gamesLogic = D('Games','Logic');
+		$this->GamesLogic = D('Games','Logic');
 		$this->categoryLogic = D('Category','Logic');
 		$this->bannerLogic = D('Banner','Logic');
 	}
@@ -74,16 +74,16 @@ class GamesController extends Controller {
 		if($promotenumber){
 			//参数是否包含每页返回记录
 			if($rowcount){
-				$games = $this->gamesLogic->getRecomGames($params,$promotenumber,$page,$rowcount);
+				$games = $this->GamesLogic->getRecomGames($params,$promotenumber,$page,$rowcount);
 			}else{
-				$games = $this->gamesLogic->getRecomGames($params,$promotenumber,$page);
+				$games = $this->GamesLogic->getRecomGames($params,$promotenumber,$page);
 			}
 		}else{
 			//参数是否包含每页返回记录数
 			if($rowcount){
-				$games = $this->gamesLogic->getGames($params, $page, $sort,$rowcount);
+				$games = $this->GamesLogic->getGames($params, $page, $sort,$rowcount);
 			}else{
-				$games = $this->gamesLogic->getGames($params, $page, $sort);
+				$games = $this->GamesLogic->getGames($params, $page, $sort);
 			}
 		}
 
@@ -102,7 +102,7 @@ class GamesController extends Controller {
 		$number = I('post.number','','int') ? I('post.number','','int') : C('POP_NUM');
 		$rowcount = I('post.rowcount','','int') ? I('post.rowcount','','int') : 0;
 
-		$games = $this->gamesLogic->getPopApps($page,$number,$rowcount);
+		$games = $this->GamesLogic->getPopApps($page,$number,$rowcount);
 
 		$this->ajaxReturn($games);
 	}
@@ -119,9 +119,72 @@ class GamesController extends Controller {
 		$number = I('post.number','','int') ? I('post.number','','int') : C('POP_NUM');
 		$rowcount = I('post.rowcount','','int') ? I('post.rowcount','','int') : 0;
 
-		$games = $this->gamesLogic->getMonthPopApps($page,$number,$rowcount);
+		$games = $this->GamesLogic->getMonthPopApps($page,$number,$rowcount);
 
 		$this->ajaxReturn($games);
+	}
+
+	/**
+	 * 游戏评论保存
+	 * @param int objid : AppID
+	 * @param int userid : 用户ID
+	 * @param int score : 评分
+	 * @param stirng comment : 评论
+	 *
+	 * @return json : data
+	 */
+	public function saveAppComment(){
+		$params = array();//保存参数
+		$data = array();//保存返回数据
+
+		//获取资源ID
+		$objid = I('post.objid',null,'int');
+		if(isset($objid)){
+			$params['objid'] = $objid;
+		}
+		//用户ID
+		$userid  = I('post.userid',null,'int');
+		if(isset($userid)){
+			$params['userid'] = $userid;
+		}
+		//评分
+		$score = I('post.score',null,'float');
+		if(isset($score)){
+			$params['score'] =  $score;
+		}
+		//评论内容
+		$content = trim(I('post.comment',null,'string'));
+		if(isset($content)){
+			$params['content'] = $content;
+		}
+		//评论时间
+		$params['creatime'] = date('Y-m-d H:i:s');
+
+		if(count($params)<5){
+			$data['rst'] = '-1';
+			$data['msg'] = 'The lack of data';
+		}else{
+			$params['type'] = '2';//代表保存的是APP评论
+			$this->GamesLogic->saveAppComment($params);
+			$data['rst'] = '0';
+			$data['msg'] = 'success';
+		}
+
+		$this->ajaxReturn($data);
+
+	}
+
+	/**
+	 * 游戏评论获取
+	 * @param int objid : 资源ID
+	 * @return json : data
+	 */
+	function getAppComments(){
+		$params = array();
+		$params['objid'] = I('post.objid','','int');
+		$params['type'] = '2';
+		$data = $this->GamesLogic->getAppComments($params);
+		$this->ajaxReturn($data);
 	}
 
 
@@ -150,7 +213,7 @@ class GamesController extends Controller {
 			$params['type'] = 'download';
 			$params['create_date'] = date('Y-m-d H:i:s'); 
 			$this->recordsLogic->addRecords($params);
-			$download_count = $this->gamesLogic->changeDownloadCount($id);
+			$download_count = $this->GamesLogic->changeDownloadCount($id);
 			$message = array('status' => '1', 'message' => $download_count);
 		}
 		$this->ajaxReturn($message);

@@ -52,26 +52,27 @@ class RecordController extends Controller {
      * @param string objid : （可选）操作对象ID
      * @param stirng subobjid : （可选）剧集，章节
      * @param Time videotime : (可选) 视频播放时间
-     * '应用类型：0.下载app 1.视频播放 2.搜索 3.阅读图书 4.打开广告 5.查询 6.打开游戏 7.打开应用'
+     * @param stirng keywords : 搜索关键字
+     * 操作类型：0.下载app 1.视频播放 2.搜索(21:视频搜索 22：APP搜索) 3.阅读图书 4.打开广告 5.查询 6.打开游戏 7.打开应用 8.注册登入 9.上网 10.系统消息阅读
      */
     public function OperationRecord(){
 		$params = array();
 
 	    //获取用户ID
-	    $uid = trim(I('post.userid'));
-	    if(!empty($uid)){
+	    $uid = I('post.uid',null,'int');
+	    if(isset($uid)){
 			$params['uid'] = $uid;
 	    }
 
 	    //操作类型
-	    $operation  = trim(I('post.operation'));
-	    if(!empty($operation)){
+	    $operation = I('post.operation',null,'int');
+	    if(isset($operation)){
 		    $params['operation'] = $operation;
 	    }
 
 		//操作对象
-	    $objid = trim(I('post.objid'));
-	    if(!empty($objid)){
+	    $objid = I('post.objid',null,'int');
+	    if(isset($objid)){
 		    $params['objid'] = $objid;
 	    }
 
@@ -85,6 +86,12 @@ class RecordController extends Controller {
 	    $videotime = trim(I('post.videotime'));
 	    if(!empty($videotime)){
 		    $params['public'] = $videotime;
+	    }
+
+	    //搜索关键字
+	    $keywords = trim(I('post.keywords'));
+	    if(!empty($keywords)){
+		    $params['public'] = $keywords;
 	    }
 
         $params['creatime'] = date("Y-m-d H:i:s");
@@ -133,6 +140,23 @@ class RecordController extends Controller {
 		}
 
 		$data = $this->Records->searchOperation($params);
+		$this->ajaxReturn($data);
+	}
+
+	/**
+	 * 关键字查询
+	 * @param int operation : 0.所有搜索 1.视频搜索 2.app搜索
+	 * @return json : data
+	 */
+	public function getKeywords(){
+		$params = array();
+		$operation = I('post.operation','','int')?I('post.operation','','int'):0;
+		switch($operation){
+			case 0: $params['operation'] = '2';break;//所有
+			case 1: $params['operation'] = '21';break;//视频
+			case 2: $params['operation'] = '22';break;//APP
+		}
+		$data = $this->Records->getKeywords($params);
 		$this->ajaxReturn($data);
 	}
 
