@@ -5,6 +5,11 @@ if(version_compare(PHP_VERSION,'5.3.0','<'))  die('require PHP > 5.3.0 !');
 define('APP_DEBUG',true);
 define('APP_PATH','./Application/');
 define('UPLOAD_PATH','Attachment/');
-define('WEB_ROOT','http://wx.pinet.cc/plife2/');
+//define('WEB_ROOT','http://wx.pinet.cc/plife2/');
+define('WEB_ROOT','localhost/~terry/plife2/');
+define('XXX','localhost/~terry/plife2/');
 define('THINK_PATH',realpath('./Think').'/');
 require THINK_PATH.'ThinkPHP.php';
+
+
+

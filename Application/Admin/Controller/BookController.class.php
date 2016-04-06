@@ -79,10 +79,12 @@ class BookController extends Controller {
     }
 
     public function editbook(){
+
         $this->checkPriv('1_3_3');
         $this->assign('act','edit');
         $this->assign('errcode','0');
         if(I('post.act')=='edit'){
+//            var_dump($_FILES);die;
             $newdata = array();
             $id = I('post.id','','int');
             $newdata['name'] = I('post.name');

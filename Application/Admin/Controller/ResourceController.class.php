@@ -128,7 +128,10 @@ class ResourceController extends Controller {
             $types = $this->categoryLogic->getParentCategoryList('1');
             $types[] = array('id'=>'0','name'=>'=请选择=');
             sort($types);
+            var_dump($types);
+
             $this->assign('types',$types);
+            $this->title = '添加视频';
             $this->display("Resource/videoedit");
         }
     }
@@ -171,6 +174,7 @@ class ResourceController extends Controller {
             sort($types);
             $this->assign('cate',$this->data['category']);
             $this->assign('types',$types);
+            $this->title = '编辑视频';
             $this->display("Resource/videoedit");
         }
 
