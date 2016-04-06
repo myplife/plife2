@@ -97,8 +97,8 @@ class UserLogic extends \Think\Model{
 	 * @param array params
 	 * @return int result
 	 */
-	public function saveUser($id,$params){
-		$result = $this->User->where('id='.$id)->data($params)->save();
+	public function updateUserInfo($id,$params){
+		$result = $this->User->where('uid='.$id)->data($params)->save();
 		return $result;
 	}
 

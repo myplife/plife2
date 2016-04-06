@@ -146,4 +146,49 @@ class UserController extends Controller {
 
 		$this->ajaxReturn($data);
 	}
+
+	/**
+	 * 账户信息修改
+	 * @param int userid :用户ID
+	 * @param string logo : 头像地址
+	 * @param string username : 用户名
+	 * @param string phone : 手机号
+	 * @param string birthday :生日
+	 */
+	public function updateUserInfo(){
+		$params = array();
+
+		$uid =  I('post.userid',null,'int');
+		//头像地址
+		$logo =  trim(I('post.logo'));
+		if(!empty($logo)){
+			$params['logo'] = $logo;
+		}
+		//用户昵称
+		$nickname =  trim(I('post.username'));
+		if(!empty($nickname)){
+			$params['nickname'] =  $nickname;
+		}
+		//手机号
+		$phone = trim(I('post.phone'));
+		if(!empty($phone)){
+			$params['phone'] = $phone;
+		}
+		//生日
+		$birthday = trim(I('post.birthday'));
+		if(!empty($birthday)){
+			$params['birthday'] = $birthday;
+		}
+
+		$data = array();
+		$data['rst'] = '-1';
+		$data['msg'] = 'failure';
+
+		$result = $this->User->updateUserInfo($uid,$params);
+		if($result){
+			$data['rst'] = '0';
+			$data['msg'] = 'success';
+		}
+		$this->ajaxReturn($data);
+	}
 }

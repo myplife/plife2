@@ -57,8 +57,9 @@ class VideoLogic extends \Think\Model{
        $data =  $this->videoModel
 		       ->field('id,uuid,name,cover,type,duratime,director,actors,setnum,years,country,category,intro,imgs,provider,isrecommend,viewtimes,filepath,creatime')
 		       ->where($mycond)->page($curpage)->order("$order desc")->select();
-	    $data1 = array(array('totalcount'=>$this->videoModel->where($mycond)->count()));
-	    $data = array_merge($data,$data1);
+	    $data2 = array('list'=>$data);
+	    $data1 = array('totalcount'=>$this->videoModel->where($mycond)->count());
+	    $data = array_merge($data1,$data2);
 	    return $data;
     }
 
