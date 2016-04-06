@@ -18,10 +18,10 @@ return array(
     ),
     'MMS_SERVER'=> 'http://192.168.11.110/plife/videos',
     'GetSysSetting' => array(
-        array('adinterval' =>10), //广告刷新时间
-        array('showusername' =>0) ,//0，不显示用户名；1，显示用户名
-        array('showphoneNo' =>1) , //0，不显示手机号；1，显示手机号
-        array('showad' =>0 )      //0，视频播放不显示广告；1，视频播放显示广告
+        'adinterval' =>10, //广告刷新时间
+       // array('showusername' =>0) ,//0，不显示用户名；1，显示用户名
+       // array('showphoneNo' =>1) , //0，不显示手机号；1，显示手机号
+       'showad' =>1       //0，视频播放不显示广告；1，视频播放显示广告
     ),
     'video_columns'=>array(
         array(

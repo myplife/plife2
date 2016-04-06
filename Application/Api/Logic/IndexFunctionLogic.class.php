@@ -88,4 +88,10 @@ class IndexFunctionLogic extends \Think\Model{
 		$data = $this->Sysmsg->data($params)->add();
 		return $data;
 	}
+
+	/*
+	 * 免责和申明
+	 * @return array data
+	 */
+
 }

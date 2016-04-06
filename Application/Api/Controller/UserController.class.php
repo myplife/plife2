@@ -45,7 +45,7 @@ class UserController extends Controller {
 		$data['msg'] = 'failure';
 		if(preg_match($reg,$phone)){//检测手机号是否正确
 			//生成随机4位验证码
-			$code = null;
+			$code = '';
 			for($i=1;$i<=4;$i++){
 				$code.=rand(0,9);
 			}
@@ -133,6 +133,8 @@ class UserController extends Controller {
 		if(!empty($password)){
 			$params['password'] = md5($password);
 		}
+		$parmas['status'] = '0';
+
 		$data = array();
 		$data['rst'] = '-1';
 		$data['msg'] = '用户名或密码错误';

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: IceLight
- * Date: 15/11/20
- * Time: 上午9:02
- */
+
 
 namespace Api\Logic;
 

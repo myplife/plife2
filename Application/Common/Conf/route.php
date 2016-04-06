@@ -37,6 +37,8 @@ return array(
 		'Api/UpdateUserInfo' => 'Api/User/updateUserInfo',                  //修改账户信息
 		'Api/GetUserInfo'    => 'Api/User/getUserInfo',                     //账户信息获取
 		'Api/ChangePassword' => 'Api/User/changePassword',                  //修改密码
+		'Api/GetArticleList' => 'Api/Post/getArticleList',                  //文章列表接口
+		'Api/GetSysSetting'  => 'Api/Config/getSysSetting',                 //获取系统设定
 
 
 
