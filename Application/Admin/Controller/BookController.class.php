@@ -99,12 +99,8 @@ class BookController extends Controller {
                 $newdata['img'] = $upres['result']['img']['fullpath'];
             }
             $ret = $this->Bookparam->where('id='.$id)->save($newdata);
-            if($ret){
-                $this->redirect('Book/bookmgr');
-            }else{
-                $this->assign('errcode','1');  // 修改失败
-                $this->error('编辑数据错误');
-            }
+            $this->redirect('Book/bookmgr');
+
         }else{
 
             $id = I('get.id','','int');

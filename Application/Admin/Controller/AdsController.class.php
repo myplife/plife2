@@ -216,12 +216,12 @@ class AdsController extends Controller {
             $newdata['height'] = I('post.height');
             $newdata['description'] = I('post.description');
             $ret = $this->Position->where('id='.$id)->save($newdata);
-            if($ret){
+            //if($ret){
                 $this->redirect('Ads/positionmgr');
-            }else{
-                $this->assign('errcode','1');  // 修改失败
-                $this->error('编辑数据失败');
-            }
+            //}else{
+            //    $this->assign('errcode','1');  // 修改失败
+             //   $this->error('编辑数据失败');
+            //}
         }else{
             $id = I('get.id','','int');
             $data = $this->positionLogic->getPositionById($id);
