@@ -2,7 +2,7 @@
 return array(
 	//'配置项'=>'配置值'
 	'DB_TYPE'   => 'mysql', 
-    'DB_HOST'   => 'localhost',
+    'DB_HOST'   => '192.168.11.169',
     'DB_NAME'   => 'plife',
     'DB_USER'   => 'root',
     'DB_PWD'    => 'mysql',

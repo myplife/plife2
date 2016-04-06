@@ -41,7 +41,7 @@ class AppsLogic extends \Think\Model{
         if(is_array($cond) && count($cond)>0){
             $mycond = $cond;
         }
-        $mycond['apptype'] = 2;
+        //$mycond['apptype'] = 2;
         $num = $this->App->where($mycond)->where('isdel is null')->count();
         return $num;
     }

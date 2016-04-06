@@ -27,6 +27,7 @@ class CategoryController extends Controller {
         $p = getCurPage();
         $where=array();
         $res = $this->categoryLogic->getCategoryList($where,$p);
+        //var_dump($res);die;
         $this->data = getSortedCategory($res);
         $this->total = $this->categoryLogic->getCategoryTotal();
         $show = constructAdminPage($this->total);

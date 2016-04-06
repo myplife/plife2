@@ -20,6 +20,7 @@ class BannerLogic extends \Think\Model{
         if(is_array($cond) && count($cond)>0){
             $mycond = $cond;
         }
+        $mycond['end_time']=array('gt',date('Y-m-d H:i:s'));
         $num = $this->Banner->where($mycond)->where('isdel is null')->count();
         return $num;
     }
