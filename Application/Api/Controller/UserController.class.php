@@ -148,12 +148,13 @@ class UserController extends Controller {
 	}
 
 	/**
-	 * 账户信息修改
+	 * 账户信息修改(不含密码修改)
 	 * @param int userid :用户ID
 	 * @param string logo : 头像地址
 	 * @param string username : 用户名
 	 * @param string phone : 手机号
 	 * @param string birthday :生日
+	 * @return json: data
 	 */
 	public function updateUserInfo(){
 		$params = array();
@@ -180,6 +181,7 @@ class UserController extends Controller {
 			$params['birthday'] = $birthday;
 		}
 
+
 		$data = array();
 		$data['rst'] = '-1';
 		$data['msg'] = 'failure';
@@ -191,4 +193,43 @@ class UserController extends Controller {
 		}
 		$this->ajaxReturn($data);
 	}
+
+	/**
+	 * 账户信息获取
+	 * @param int userid ：用户ID
+	 */
+	public function getUserInfo(){
+		$uid = I('post.userid',null,'int');
+		if(isset($uid)){
+			$data = $this->User->getUserInfo($uid);
+		}
+		$this->ajaxReturn($data);
+	}
+
+	/**
+	 * 修改密码
+	 * @param int userid :用户ID
+	 * @param string oldpwd :旧密码
+	 * @param string newpwd : 新密码
+	 * @return json : data
+	 */
+	public function changePassword(){
+		$uid = I('post.userid',null,'int');
+		$newpwd =  trim(I('post.newpwd'));//新密码
+		$oldpwd = trim(I('post.oldpwd'));//旧密码
+
+		$data = array();
+		$data['rst'] = '-1';
+		$data['msg'] = 'failure';
+
+		if($uid && !empty($newpwd) && !empty($oldpwd)){
+			$result = $this->User->changePassword($uid,$oldpwd,$newpwd);
+			if($result){
+				$data['rst'] = '0';
+				$data['msg'] = 'success';
+			}
+		}
+		$this->ajaxReturn($data);
+	}
+
 }

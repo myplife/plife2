@@ -75,8 +75,7 @@ class UserLogic extends \Think\Model{
 	 * @param string phone ：手机号码
 	 * @return int result
 	 */
-	public function findUser(){
-		$phone =  trim(I('post.phone'));
+	public function findUser($phone){
 		$result = $this->User->where('phone='.$phone)->count();
 		return $result;
 	}
@@ -128,4 +127,31 @@ class UserLogic extends \Think\Model{
 	}
 
 
+	/**
+	 * 账户信息获取
+	 * @param int uid : 用户ID
+	 * @return array data
+	 */
+	public function getUserInfo($uid){
+		$data = $this->User->where('uid='.$uid)->field('uid userid,logo,nickname username,phone,birthday')->select();
+		return $data;
+	}
+
+	/**
+	 * 修改密码
+	 * @param int uid :用户ID
+	 * @param string oldpwd :旧密码
+	 * @param string newpwd :新密码
+	 * @return int result
+	 */
+	public function changePassword($uid,$oldpwd,$newpwd){
+		$params['uid'] = $uid;
+		$params['password'] = md5($oldpwd);
+		$result = $this->User->where($params)->count();
+		if($result > 0){
+			$ret = $this->updateUserInfo($uid,array('password'=>md5($newpwd)));
+			return $ret;
+		}
+		return $result;
+	}
 }
