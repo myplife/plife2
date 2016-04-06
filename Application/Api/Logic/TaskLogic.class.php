@@ -11,13 +11,13 @@ namespace Api\Logic;
 
 class TaskLogic extends \Think\Model{
 
-    private $Admin;
+    private $User;
     private $Task;
     private $Usertask;
 	private $UserSing;
 
     public function __construct(){
-        $this->Admin = M('Admin');
+        $this->User = M('User');
         $this->Task = M('Task');
         $this->Usertask = M('User_task');
 	    $this->UserSign = M('UserSign');
@@ -107,9 +107,9 @@ class TaskLogic extends \Think\Model{
         $inserid = $this->Usertask->add($adddata);
         $result = array();
         if($inserid){
-            $totalscore = $this->Admin->where('uid='.$userid)->getField('totalscore');
+            $totalscore = $this->User->where('uid='.$userid)->getField('totalscore');
             $taskscore = $this->Task->where('id='.$taskid)->getField('score');
-            $updateid = $this->Admin->where('uid='.$userid)->save(array('totalscore'=>$totalscore+$taskscore));
+            $updateid = $this->User->where('uid='.$userid)->save(array('totalscore'=>$totalscore+$taskscore));
             if($updateid){
                 $result['msg'] = '001';
                 $result['status'] = 0;
