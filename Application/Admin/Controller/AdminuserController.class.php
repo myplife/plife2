@@ -8,14 +8,16 @@ class AdminuserController extends Controller {
 
     public function login(){
         if(IS_POST){
-            $Admin = M('admin');
+            $Admin = M('user');
             $admininfo = $Admin->getByUsername(I('post.user'));
             if($admininfo != null){
                 if((int)$admininfo['status'] == 1){
                     $this->errmsg  = '账户被冻结无法登陆！';
                 }else{
-                    echo 'hello3';
                     $tpass = TransPassUseSalt(I('post.pass'), $admininfo['salt']);
+                    echo $tpass;
+                    echo 'hello321';
+                    echo $admininfo['password'];
                     if($tpass == $admininfo['password']){
                         session('expire',300);
                         session('name', $admininfo['nickname']);

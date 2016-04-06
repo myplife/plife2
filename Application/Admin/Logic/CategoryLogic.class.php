@@ -36,7 +36,8 @@ class CategoryLogic extends \Think\Model{
 
     public function getParentCategoryList($id){
         if($id){
-            $data = $this->Category->where(array('pid'=>$id))->select();
+            $data = $this->Category->where(array('pid'=>$id))->where('isdel is null')->select();
+            //var_dump($data);die;
             return $data;
         }else{
             return false;
