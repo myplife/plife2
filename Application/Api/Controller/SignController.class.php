@@ -7,13 +7,13 @@ class SignController extends Controller {
 
     private $SignLogic;
     private $UserSign;
-    private $Admin;
+    private $User;
 
     public function __construct(){
         parent::__construct();
         $this->SignLogic = D('Sign','Logic');
         $this->UserSign = M('User_sign');
-        $this->Admin = M('Admin');
+        $this->User = M('User');
     }
 
     public function SignIn(){
@@ -54,8 +54,8 @@ class SignController extends Controller {
             $signid = $this->UserSign->add($sign_data);
 
             if($signid > 0){
-                $ad = $this->Admin->where('uid='.$userid)->find();
-                $this->Admin->where('uid='.$userid)->save(array('totalscore'=>$ad['totalscore']+$score));
+                $ad = $this->User->where('uid='.$userid)->find();
+                $this->User->where('uid='.$userid)->save(array('totalscore'=>$ad['totalscore']+$score));
                 $data['id'] = $signid;
             }else{
                 $msg = 'error';

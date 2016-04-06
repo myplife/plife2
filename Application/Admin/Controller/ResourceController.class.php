@@ -167,7 +167,7 @@ class ResourceController extends Controller {
                 $this->error('编辑数据失败');
             }
 
-            
+
         }else{
             $id = I('get.id','','int');
             $this->data = $this->videoLogic->getVideoById($id);

@@ -5,20 +5,20 @@ use Think\Controller;
 class ProductController extends Controller {
 
     private $ProductLogic;
-    private $Admin;
+    private $User;
     private $Userproduct;
 
     public function __construct(){
         parent::__construct();
         $this->ProductLogic = D('Product','Logic');
-        $this->Admin = M('Admin');
+        $this->User = M('User');
         $this->Userproduct = M('User_product');
     }
 
     public function GetUserPoint(){
         $userid = I('post.userid');
 //        $userid = 1001;
-        $data = $this->Admin->where('uid='.$userid)->field('uid,totalscore point,pointtoexpire,expiredpoint')->find();
+        $data = $this->User->where('uid='.$userid)->field('uid,totalscore point,pointtoexpire,expiredpoint')->find();
         $this->ajaxReturn($data);
     }
 
@@ -80,7 +80,7 @@ class ProductController extends Controller {
 		//产品ID
 		$params['productid'] = I('post.productid',null,'int');
 
-		$data = $this->Admin->field('totalscore')->where('uid='.$params['userid'])->select();
+		$data = $this->User->field('totalscore')->where('uid='.$params['userid'])->select();
 		$userscore = $data[0]['totalscore'];//用户拥有积分
 		$data = $this->ProductLogic->getPointProducts(array('id'=>$params['productid']));
 		$productscore = $data[0]['point'];//该商品所需要的积分

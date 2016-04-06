@@ -49,8 +49,9 @@ class GamesLogic extends \Think\Model{
 			$order = $this->appOrder[1];
 		}
 		$data = $this->gamesModel->where($mycond)->page($curpage)->order("$order desc")->select();
-		$data1 = array(array('totalcount'=>$this->gamesModel->where($mycond)->count()));
-		$data = array_merge($data,$data1);
+		$data2 = array('list'=>$data);
+		$data1 = array('totalcount'=>$this->gamesModel->where($mycond)->count());
+		$data = array_merge($data1,$data2);
 		return $data;
 	}
 

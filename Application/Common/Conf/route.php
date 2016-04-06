@@ -34,6 +34,9 @@ return array(
 		'Api/GetSlideShow'   => 'Api/Ads/getappimgs',                       //幻灯片信息
 		'Api/GetImageUrl'    => 'Api/Ads/getimg',                           //图片信息
 		'Api/GetKeywords'    => 'Api/Record/getKeywords',                   //关键字查询（获取记录）
+		'Api/UpdateUserInfo' => 'Api/User/updateUserInfo',                  //修改账户信息
+		'Api/GetUserInfo'    => 'Api/User/getUserInfo',                     //账户信息获取
+		'Api/ChangePassword' => 'Api/User/changePassword',                  //修改密码
 
 
 

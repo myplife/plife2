@@ -13,12 +13,12 @@ class ProductLogic extends \Think\Model{
 
     private $Product;
     private $Userproduct;
-    private $Admin;
+    private $User;
 
     public function __construct(){
         $this->Product = M('Product');
         $this->Userproduct = M('User_product');
-        $this->Admin = M('Admin');
+        $this->User = M('User');
     }
 
     public function getProductListByCategoryId($cond=array(),$userid){
@@ -60,10 +60,10 @@ class ProductLogic extends \Think\Model{
         $insertid = $this->Userproduct->add($adddata);
         $result = array();
         if($insertid){
-            $totalscore = $this->Admin->where('uid = '.$userid)->getField('totalscore');
+            $totalscore = $this->User->where('uid = '.$userid)->getField('totalscore');
             $productscore = $this->Product->where('id = '.$productid)->getField('score');
             $savedata = array('totalscore'=>$totalscore-$productscore);
-            $updateid = $this->Admin->where('uid = '.$userid)->save($savedata);
+            $updateid = $this->User->where('uid = '.$userid)->save($savedata);
             if($updateid){
                 $result['msg'] = '001';
                 $result['totalscore'] = $totalscore-$productscore;
@@ -106,7 +106,7 @@ class ProductLogic extends \Think\Model{
 	 */
 	public function exchangePoint($params=array(),$userscore=0,$productnum=0,$productscore=0){
 		//更改用户积分
-		$this->Admin->where('uid='.$params['userid'])->save(array('totalscore'=>$userscore-$productscore));
+		$this->User->where('uid='.$params['userid'])->save(array('totalscore'=>$userscore-$productscore));
 		//更改产品数量
 		$this->Product->where('id='.$params['productid'])->save(array('lastnums'=>$productnum-1));
 		//保存兑换记录
