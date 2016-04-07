@@ -62,7 +62,8 @@ class PostController extends Controller {
                 $this->error('插入数据错误');
             }
         }else{
-            $cates = getSortedCategory($this->categoryLogic->getCategoryList());
+            //$cates = getSortedCategory($this->categoryLogic->getCategoryList(array('pid'=>52)));
+            $cates = $this->categoryLogic->getCategoryList(array('pid'=>52));
             $this->assign('cate',$cates);
             $this->display("Post/postedit");
         }

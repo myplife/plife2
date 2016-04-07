@@ -1,5 +1,5 @@
 <extend name="Public:base"/>
-<block name='categorymenu'>active</block>
+<block name='postmenu'>active</block>
 <block name="pagecont">
     <div id="main-container">
         <div class="padding-md">
@@ -73,9 +73,9 @@
         $(function(){
             $("select[name='cate']").find('option').each(function(){
                 var self = this;
-                if($(self).val()== {$data['cate_id']}){
-                    $(self).attr('selected',true);
-                }
+//                if($(self).val()== {$data['cate_id']}){
+//                    $(self).attr('selected',true);
+//                }
             });
         });
     </script>
