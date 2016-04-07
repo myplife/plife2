@@ -39,6 +39,11 @@ return array(
 		'Api/ChangePassword' => 'Api/User/changePassword',                  //修改密码
 		'Api/GetArticleList' => 'Api/Post/getArticleList',                  //文章列表接口
 		'Api/GetSysSetting'  => 'Api/Config/getSysSetting',                 //获取系统设定
+		'Api/GetStatement'   => 'Api/IndexFunction/getStatement',           //免责和声明
+		'Api/SendVerifyCode' => 'Api/User/sendVerifyCode',                  //发送短信验证码
+		'Api/VerifyCode'     => 'Api/User/verifyCode',                      //验证码验证
+		'Api/RegistUser'     => 'Api/User/register',                        //用户注册
+		'Api/Login'          => 'Api/User/login',                           //用户登入
 
 
 

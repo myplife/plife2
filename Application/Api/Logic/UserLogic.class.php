@@ -71,7 +71,7 @@ class UserLogic extends \Think\Model{
 	 * @return int result
 	 */
 	public function findUser($phone){
-		$result = $this->User->where('phone='.$phone)->count();
+		$result = $this->User->where('phone='.$phone)->select();
 		return $result;
 	}
 
@@ -112,13 +112,9 @@ class UserLogic extends \Think\Model{
 	 * @return array data
 	 */
 	public function login($params){
-		$result = $this->User->field('uid,nickname')->where($params)->select();
-		if($result){
 			//用户名密码正确，更新用户最后登入时间
 			$date = date('Y-m-d H:i:s');
 			$this->User->where($params)->data('lastlogindate='.$date)->save();
-		}
-		return $result;
 	}
 
 

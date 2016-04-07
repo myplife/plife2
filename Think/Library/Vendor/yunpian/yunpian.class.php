@@ -4,10 +4,8 @@ header("Content-Type:text/html;charset=utf-8");
  class YunPian{
 	private $ch;
 	private $apikey = '18ac0757d41974c55555c3bbb9c56360';
-	private $testfirst = '【派尔商业Wi-Fi】欢迎您注册免费的派尔Wi-Fi。您的验证码为：';
-	private $testend = ' (为了保证账号安全，请勿向他人泄露。如非本人操作，请忽略)';
 	private $test = '【派尔商业Wi-Fi】欢迎您注册免费的派尔Wi-Fi。您的验证码为：#code# （为了保证账号安全，请勿向他人泄露。如非本人操作，请忽略)';
-	private $mobile;
+
 
 	public function __construct(){
 		$this->ch = curl_init();

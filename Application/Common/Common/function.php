@@ -185,10 +185,10 @@ function genUuid() {
 
 // 检测密码强度
 function passStrengthDetect($pwd){
-	if( strlen($pwd) < 8 ) { return false;}  // 不能小于8位
+	if( strlen($pwd) < 8 || strlen($pwd) >18) { return false;}  // 密码长度为8-18位
 	if( !preg_match("#[0-9]+#", $pwd) ) {return false;} // 必须包含至少一位数字
-	if( !preg_match("#[a-z]+#", $pwd) ) {return false;} // 必须包含至少一位小写字母
-	if( !preg_match("#[A-Z]+#", $pwd) ) {return false;} // 必须包含至少一位大写字母
+	if( !preg_match("#[a-zA-Z]+#", $pwd) ) {return false;} // 必须包含至少一位小写字母
+	//if( !preg_match("#[A-Z]+#", $pwd) ) {return false;} // 必须包含至少一位大写字母
 	return true;
 }
 

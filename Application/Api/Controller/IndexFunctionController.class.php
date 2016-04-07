@@ -139,8 +139,22 @@ class IndexFunctionController extends Controller
 
 	/**
 	 * 免责申明接口
+	 * @param type : 0 免责申明 1 服务协议
 	 * @return json:data
 	 */
+	public function getStatement(){
+		$type = I('post.type',null,'int');
+		$data = array();
+		if(isset($type)){
+			switch($type){
+				case 0: $params['type'] = '3';break;
+				case 1: $params['type'] = '4';break;
+				default: $this->ajaxReturn(array('msg','查询错误'));
+			}
+			$data = $this->IndexFunction->getStatement($params);
+		}
+		$this->ajaxReturn($data);
+	}
 
 
 

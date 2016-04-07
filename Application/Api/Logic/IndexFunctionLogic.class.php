@@ -91,7 +91,11 @@ class IndexFunctionLogic extends \Think\Model{
 
 	/*
 	 * 免责和申明
+	 * @param int params :0.免责声明 2.服务协议
 	 * @return array data
 	 */
-
+	public function getStatement($params){
+		$data = $this->Sysmsg->where($params)->field('content statements')->select();
+		return $data;
+	}
 }
