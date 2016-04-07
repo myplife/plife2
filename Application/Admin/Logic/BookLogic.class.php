@@ -22,7 +22,8 @@ class BookLogic extends \Think\Model{
         if(is_array($cond) && count($cond)>0){
             $mycond = $cond;
         }
-        $num = $this->Book->join('pl_bookparam on pl_book.id = pl_bookparam.bookid')->where($mycond)->where('pl_bookparam.isdel is null')->count();
+        //$num = $this->Book->join('pl_bookparam on pl_book.id = pl_bookparam.bookid')->where($mycond)->where('pl_bookparam.isdel is null')->count();
+        $num = $this->Book->join('pl_bookparam on pl_book.id = pl_bookparam.bookid')->where($mycond)->where('pl_book.isdel is null')->count();
         return $num;
     }
 
@@ -33,6 +34,7 @@ class BookLogic extends \Think\Model{
         }
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
         $data = $this->Book->join('pl_bookparam on pl_book.id = pl_bookparam.bookid')->where($mycond)->where('pl_book.isdel is null and pid = 0')->page($pstr)->order('pl_bookparam.id asc')->select();
+        //var_dump($data);
         return $data;
     }
 

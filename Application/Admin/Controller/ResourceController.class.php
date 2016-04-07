@@ -48,6 +48,11 @@ class ResourceController extends Controller {
 
     // 视频
     public function videomgr(){
+        echo time();
+        echo '<br/>';
+        echo strtotime(date("Y-m-d H:i:s"));
+        echo '<br/>';
+        echo strtotime(date("Y-m-d H:i:s",strtotime("+7 day")));
         $this->checkPriv('1_1_1');
         $p = getCurPage();
         $res = $this->videoLogic->getVideoList(array(),$p);
@@ -492,7 +497,9 @@ class ResourceController extends Controller {
             $newdata['recommendtxt'] = I('post.recommendtxt');
             $newdata['updatetxt'] = I('post.updatetxt');
             $newdata['apptype'] = 1;
+            //var_dump($_FILES);
             $upres = $this->upimgfile();
+//            var_dump($upres);die;
             if($upres['error'] == false){
                 $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
             }
@@ -503,6 +510,7 @@ class ResourceController extends Controller {
             $imgs = I('post.img');
             $newdata['imgs'] = json_encode($imgs);
             $ret = $this->Apps->add($newdata);
+            //var_dump($ret);
             if($ret){
                 $this->redirect('Resource/gamemgr');
             }else{
@@ -636,6 +644,7 @@ class ResourceController extends Controller {
             $ret['result'] = $upfinfo;
             //var_dump($ret);die;
         }
+        //var_dump($ret);die;
         return $ret;
     }
 

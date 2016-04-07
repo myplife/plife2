@@ -30,7 +30,7 @@ class PostLogic extends \Think\Model{
             $mycond = $cond;
         }
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->Post->where($mycond)->where('isdel is null')->page($pstr)->order('create_date asc')->select();
+        $data = $this->Post->where($mycond)->where('isdel is null')->page($pstr)->order('creatime asc')->select();
         return $data;
     }
 
