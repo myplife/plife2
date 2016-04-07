@@ -137,6 +137,12 @@ class IndexFunctionController extends Controller
 		$this->ajaxReturn($data);
 	}
 
+	/**
+	 * 免责申明接口
+	 * @return json:data
+	 */
+
+
 
 
 }

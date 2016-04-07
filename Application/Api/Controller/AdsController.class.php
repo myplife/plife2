@@ -62,13 +62,5 @@ class AdsController extends Controller {
         $this->ajaxReturn($cover);
     }
 
-	/**
-	 * 文章列表
-	 * @param int acticletype : 0.厂区培训 1.厂区说明
-	 *
-	 * @return json data
-	 */
-	public function getArticleList(){
 
-	}
 }

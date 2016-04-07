@@ -42,4 +42,14 @@ class PostLogic extends \Think\Model{
             return false;
         }
     }
+
+	/**
+	 * 文章列表
+	 * @param array params
+	 * @return array data
+	 */
+	public function getArticleList($params){
+		$data = $this->Post->where($params)->field('id,title,img imgurl,content,creatime date ')->select();
+		return $data;
+	}
 }
