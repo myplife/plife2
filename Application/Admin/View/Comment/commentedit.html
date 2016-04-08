@@ -29,6 +29,13 @@
                                         </option>
                                     </foreach>
                                 </select>
+                                <select id ="category_id" name="category_id">
+                                    <foreach name="category" item="vo">
+                                        <option value="{$vo.id}">
+                                            {$vo.name}
+                                        </option>
+                                    </foreach>
+                                </select>
                                 <select id ="resource_id" name="resource_id">
                                     <foreach name="resource" item="vo">
                                         <option value="{$vo.id}">
@@ -83,9 +90,34 @@
         })
     </script>
     <script language="javascript" type="text/javascript">
+        $("#category_id").append("<option value='" + '0' + "'>" + '请选择' + "</option>");
         $("#resource_id").append("<option value='" + '0' + "'>" + '请选择' + "</option>");
         $(function(){
             $("#type").change(function(){
+                if($(this).val()=='0'){
+                    $("#resource_id").html("");
+                    $("#resource_id").append("<option value='" + '0' + "'>" + '请选择' + "</option>");
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        //url: "http://wx.pinet.cc/plife2/index.php/Admin/Comment/ajaxcomments.html",
+                        url: "http://localhost/~terry/plife2/index.php/Admin/Comment/ajaxcommentscategory.html",
+                        data:{type:$(this).val()},
+                        success : function(data){
+                            if (data != null) {
+                                $("#category_id").html("");
+                                $.each(data, function (index, item) {
+                                    //$("#SltType1").options.append( this.ItemNo , this.ItemName );
+                                    $("#category_id").append("<option value='" + item.id + "'>" + item.name + "</option>");
+                                });
+                            }
+                        }
+                    });
+                }
+
+            })
+            $("#category_id").change(function(){
                 if($(this).val()=='0'){
                     $("#resource_id").html("");
                     $("#resource_id").append("<option value='" + '0' + "'>" + '请选择' + "</option>");
@@ -94,15 +126,18 @@
                     $.ajax({
                         type: "POST",
                         dataType: "json",
-                        url: "http://wx.pinet.cc/plife2/index.php/Admin/Comment/ajaxcomments.html",
+                        //url: "http://wx.pinet.cc/plife2/index.php/Admin/Comment/ajaxcomments.html",
+                        url: "http://localhost/~terry/plife2/index.php/Admin/Comment/ajaxcomments.html",
                         data:{type:$(this).val()},
                         success : function(data){
+                            $("#resource_id").html("");
                             if (data != null) {
-                                $("#resource_id").html("");
                                 $.each(data, function (index, item) {
                                     //$("#SltType1").options.append( this.ItemNo , this.ItemName );
                                     $("#resource_id").append("<option value='" + item.id + "'>" + item.name + "</option>");
                                 });
+                            }else{
+                                $("#resource_id").append("<option value='" + '0' + "'>" + '请选择' + "</option>");
                             }
                         }
                     });

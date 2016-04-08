@@ -28,15 +28,12 @@ class SignController extends Controller {
         $uid = I('get.uid');
         $p = getCurPage();
         $res = $this->SignLogic->getSignRecord(array('userid'=>$uid),$p);
-        $totalscore=0;
-        foreach($res as $k=>$v){
-            $totalscore +=$v['score'];
-        }
+        $resscore = $this->SignLogic->getSignScore(array('uid'=>$uid));
 
         $this->data = $res;
         $this->total = $this->SignLogic->getSignRecordTotal(array('userid'=>$uid));
         $show = constructAdminPage($this->total);
-        $this->assign('totalscore',$totalscore);
+        $this->assign('totalscore',$resscore[0]['totalscore']);
         $this->assign('page',$show);
         $this->display();
     }
