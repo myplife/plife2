@@ -61,6 +61,12 @@ class CommentController extends Controller {
         $this->display();
     }
 
+    public function ajaxcommentscategory(){
+        $type=I('post.type','','int')?I('post.type','','int'):1;
+        $data = $this->videoLogic->getVideoTypeByType($type);
+        $this->ajaxReturn($data);
+    }
+
     public function ajaxcomments(){
         $type=I('post.type','','int')?I('post.type','','int'):1;
         $data = $this->videoLogic->getVideoByType($type);
@@ -106,12 +112,7 @@ class CommentController extends Controller {
             $newdata['resource_id'] = I('post.resource_id');
             $newdata['contact'] = I('post.contact');
             $ret = $this->Comment->where('id='.$id)->save($newdata);
-            if($ret){
-                $this->redirect('Comment/commentmgr');
-            }else{
-                $this->assign('errcode','1');  // 修改失败
-                $this->error('编辑数据失败');
-            }
+            $this->redirect('Comment/commentmgr');
         }else{
             $id = I('get.id','','int');
             $data = $this->commentLogic->getCommentById($id);

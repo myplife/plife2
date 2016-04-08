@@ -48,11 +48,6 @@ class ResourceController extends Controller {
 
     // 视频
     public function videomgr(){
-        echo time();
-        echo '<br/>';
-        echo strtotime(date("Y-m-d H:i:s"));
-        echo '<br/>';
-        echo strtotime(date("Y-m-d H:i:s",strtotime("+7 day")));
         $this->checkPriv('1_1_1');
         $p = getCurPage();
         $res = $this->videoLogic->getVideoList(array(),$p);
@@ -108,20 +103,26 @@ class ResourceController extends Controller {
         if(I('post.act')=='add'){
             $newdata = array();
             $newdata['name'] = I('post.name');
-            $newdata['type'] = I('post.type');
+            $newdata['type'] = 1;
             $newdata['duratime'] = I('post.duratime');
             $newdata['director'] = I('post.director');
             $newdata['actors'] = I('post.actors');
             $newdata['setnum'] = I('post.setnum','','int');
             $newdata['country'] = I('post.country');
-            $newdata['category'] = I('post.category');
+            $newdata['category'] = I('post.cate');
             $newdata['years'] = I('post.years','','int');
             $newdata['intro'] = I('post.intro');
             $newdata['uuid'] = $this->videoLogic->getUuid();
-            if($newdata['setnum'] == 0 || $newdata['years'] == 0){$this->error('集数或年代不能为空，请填入合理数字');}
-            $upres = $this->upimgfile();
-            if($upres['error'] == false){
-                $newdata['cover'] = $upres['result']['coverimg']['fullpath'];
+
+            if($_FILES['coverimg']['size'] > 0) {
+                $upres = $this->upimgfile();
+                if ($upres['error'] == false) {
+                    $newdata['cover'] = $upres['result']['coverimg']['fullpath'];
+                }
+            }
+
+            if($newdata['name'] == '' || $newdata['category']== '' || $newdata['setnum'] == 0){
+                $this->error('必填项不能为空');
             }
             $ret = $this->Video->add($newdata);
             if($ret){
@@ -148,23 +149,26 @@ class ResourceController extends Controller {
             $newdata = array();
             $id = I('post.id','','int');
             $newdata['name'] = I('post.name');
-            $newdata['type'] = I('post.type');
             $newdata['duratime'] = I('post.duratime');
             $newdata['director'] = I('post.director');
             $newdata['actors'] = I('post.actors');
             $newdata['setnum'] = I('post.setnum','','int');
             $newdata['country'] = I('post.country');
-//            $newdata['category'] = I('post.category');
             $newdata['category'] = I('post.cate');
             $newdata['years'] = I('post.years','','int');
             $newdata['intro'] = I('post.intro');
-            if($newdata['setnum'] == 0 || $newdata['years'] == 0){$this->error('集数或年代不能为空，请填入合理数字');}
-            $upres = $this->upimgfile();
-            if($upres['error'] == false){
-                $newdata['cover'] = $upres['result']['coverimg']['fullpath'];
+            if($_FILES['coverimg']['size'] > 0){
+                $upres = $this->upimgfile();
+                if($upres['error'] == false){
+                    $newdata['cover'] = $upres['result']['coverimg']['fullpath'];
+                }
             }
-            $ret = $this->Video->where('id='.$id)->save($newdata);
 
+            if($newdata['name'] == '' || $newdata['category']== '' || $newdata['setnum'] == 0){
+                $this->error('必填项不能为空');
+            }
+
+            $ret = $this->Video->where('id='.$id)->save($newdata);
             if($ret){
                 $this->redirect('Resource/videomgr');
             }else{
@@ -251,13 +255,17 @@ class ResourceController extends Controller {
             $newdata['recommendtxt'] = I('post.recommendtxt');
             $newdata['updatetxt'] = I('post.updatetxt');
             $newdata['apptype'] = 2;
-            $upres = $this->upimgfile();
-            if($upres['error'] == false){
-                $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+            if($_FILES['iconimg']['size']>0) {
+                $upres = $this->upimgfile();
+                if ($upres['error'] == false) {
+                    $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+                }
             }
-            $upfile = $this->upfile();
-            if($upfile['error']==false){
-                $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+            if($_FILES['filepath']['size']>0) {
+                $upfile = $this->upfile();
+                if ($upfile['error'] == false) {
+                    $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+                }
             }
             $imgs = I('post.img');
             $newdata['imgs'] = json_encode($imgs);
@@ -303,18 +311,24 @@ class ResourceController extends Controller {
             $newdata['tags'] = I('post.category');
             $newdata['recommendtxt'] = I('post.recommendtxt');
             $newdata['updatetxt'] = I('post.updatetxt');
-            $upres = $this->upimgfile();
 
-            $upfile = $this->upfile();
-            if($upres['error'] == false){
-                $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+            if($_FILES['iconimg']['size']>0){
+                $upres = $this->upimgfile();
+                if($upres['error'] == false){
+                    $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+                }
             }
-            if($upfile['error']==false){
-                $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+
+            if($_FILES['filepath']['size']>0) {
+                $upfile = $this->upfile();
+                if ($upfile['error'] == false) {
+                    $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+                }
             }
+
             $imgs = I('post.img');
             $newdata['imgs'] = json_encode($imgs);
-            $ret = $this->Apps->where('id='.$id)->save($newdata);
+            $ret = $this->Apps->where(array('id'=>$id))->save($newdata);
             if($ret){
                 $this->redirect('Resource/appmgr');
             }else{
@@ -634,17 +648,13 @@ class ResourceController extends Controller {
             print_r($upfinfo);die;
             $ret['error'] = true;
             $ret['result'] = $upload->getError();
-            //$this->error($upload->getError());
         }else{// 上传成功
-            //exit('sss');
             foreach($upfinfo as $k=>&$file){
                 $file['fullpath'] = $upload->rootPath.$file['savepath'].$file['savename'];
             }
             $ret['error'] = false;
             $ret['result'] = $upfinfo;
-            //var_dump($ret);die;
         }
-        //var_dump($ret);die;
         return $ret;
     }
 

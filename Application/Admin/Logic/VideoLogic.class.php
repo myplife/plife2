@@ -13,6 +13,7 @@ class VideoLogic extends \Think\Model{
     public function __construct(){
         $this->Video = M('Video');
         $this->App = M('App');
+        $this->Category = M('Category');
     }
     private $Video;
     private $App;
@@ -36,17 +37,29 @@ class VideoLogic extends \Think\Model{
         return $data;
     }
 
+    public function getVideoTypeByType($type){
+        $wheres = array('pid'=>$type );
+        $data = $this->Category->where($wheres)->where('isdel is null')->select();
+        if($data){
+            return $data;
+        }else{
+            return false;
+        }
+    }
+
     public function getVideoByType($type){
-        switch($type){
+        $re = $this->Category->where(array('id'=>$type))->select();
+        $typename = $re[0]['name'];
+        $pid = $re[0]['pid'];
+        switch($pid){
             case 1:
-                $data = $this->Video->select();
+                $data = $this->Video->where('isdel is null')->where(array('category'=>$typename))->select();
                 return $data;
             case 2:
-                $data = $this->App->select();
+                $data = $this->App->where('isdel is null')->where(array('name'=>$typename))->select();
                 return $data;
             default:
                 return false;
-
         }
     }
 

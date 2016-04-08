@@ -15,6 +15,7 @@ class SignLogic extends \Think\Model{
 
     public function __construct(){
         $this->Usersign = M('User_sign');
+        $this->User = M('User');
     }
 
     public function getSignUsersList($cond=array(), $p){
@@ -23,7 +24,7 @@ class SignLogic extends \Think\Model{
             $mycond = $cond;
         }
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->Usersign->join('left join pl_admin on pl_user_sign.userid = pl_admin.uid')->group('userid')->where($mycond)->page($pstr)->select();
+        $data = $this->Usersign->join('left join pl_user on pl_user_sign.userid = pl_user.uid')->group('userid')->where($mycond)->page($pstr)->select();
         return $data;
     }
 
@@ -42,7 +43,7 @@ class SignLogic extends \Think\Model{
             $mycond = $cond;
         }
         $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->Usersign->join('left join pl_admin on pl_user_sign.userid = pl_admin.uid')->where($mycond)->page($pstr)->select();
+        $data = $this->Usersign->join('left join pl_user on pl_user_sign.userid = pl_user.uid')->where($mycond)->page($pstr)->select();
         return $data;
     }
 
@@ -52,6 +53,15 @@ class SignLogic extends \Think\Model{
             $mycond = $cond;
         }
         $num = $this->Usersign->where($mycond)->count();
+        return $num;
+    }
+
+    public function getSignScore($cond = array()){
+        $mycond = array();
+        if(is_array($cond) && count($cond)>0){
+            $mycond = $cond;
+        }
+        $num = $this->User->where($mycond)->select();
         return $num;
     }
 
