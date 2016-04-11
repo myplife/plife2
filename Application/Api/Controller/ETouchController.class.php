@@ -3,7 +3,9 @@
 	use Think\Controller;
 
 	class ETouchController extends Controller{
-
+		public function test(){
+			echo(getcwd());
+		}
 
 		/*public function test(){
 			echo(sdfs);
