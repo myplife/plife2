@@ -67,12 +67,15 @@ class AdsController extends Controller {
             $newdata['start_time'] = I('post.start_time');
             $newdata['end_time'] = I('post.end_time');
             $newdata['status']='1';
-            $upres = $this->upimgfile();
 
-            if($upres['error'] == false){
-                $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+            if($_FILES['img']['size'] > 0){
+                $upres = $this->upimgfile();
+                if($upres['error'] == false){
+                    $newdata['img'] = $upres['result']['img']['fullpath'];
+                }
             }
-            $newdata['img'] = I('post.img');
+
+            //$newdata['img'] = I('post.img');
             $ret = $this->Banner->add($newdata);
             if($ret){
                 $this->redirect('Ads/bannermgr');
@@ -107,18 +110,15 @@ class AdsController extends Controller {
             $newdata['end_time'] = I('post.end_time');
             $newdata['status']='1';
 
-            $upres = $this->upimgfile();
-
-            if($upres['error'] == false){
-                $newdata['img'] = $upres['result']['img']['fullpath'];
+            if($_FILES['img']['size'] > 0) {
+                $upres = $this->upimgfile();
+                if ($upres['error'] == false) {
+                    $newdata['img'] = $upres['result']['img']['fullpath'];
+                }
             }
             $ret = $this->Banner->where('id='.$id)->save($newdata);
-            if($ret){
-                $this->redirect('Ads/bannermgr');
-            }else{
-                $this->assign('errcode','1');  // 修改失败
-                $this->error('编辑数据错误');
-            }
+            $this->redirect('Ads/bannermgr');
+
         }else{
 
             $id = I('get.id','','int');

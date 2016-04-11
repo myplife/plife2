@@ -318,7 +318,6 @@ class ResourceController extends Controller {
                     $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
                 }
             }
-
             if($_FILES['filepath']['size']>0) {
                 $upfile = $this->upfile();
                 if ($upfile['error'] == false) {
@@ -511,20 +510,21 @@ class ResourceController extends Controller {
             $newdata['recommendtxt'] = I('post.recommendtxt');
             $newdata['updatetxt'] = I('post.updatetxt');
             $newdata['apptype'] = 1;
-            //var_dump($_FILES);
-            $upres = $this->upimgfile();
-//            var_dump($upres);die;
-            if($upres['error'] == false){
-                $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+            if($_FILES['iconimg']['size']>0) {
+                $upres = $this->upimgfile();
+                if ($upres['error'] == false) {
+                    $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+                }
             }
-            $upfile = $this->upfile();
-            if($upfile['error']==false){
-                $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+            if($_FILES['filepath']['size']>0) {
+                $upfile = $this->upfile();
+                if ($upfile['error'] == false) {
+                    $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+                }
             }
             $imgs = I('post.img');
             $newdata['imgs'] = json_encode($imgs);
             $ret = $this->Apps->add($newdata);
-            //var_dump($ret);
             if($ret){
                 $this->redirect('Resource/gamemgr');
             }else{
@@ -559,13 +559,17 @@ class ResourceController extends Controller {
             $newdata['tags'] = I('post.category');
             $newdata['recommendtxt'] = I('post.recommendtxt');
             $newdata['updatetxt'] = I('post.updatetxt');
-            $upres = $this->upimgfile();
-            if($upres['error'] == false){
-                $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+            if($_FILES['iconimg']['size']>0) {
+                $upres = $this->upimgfile();
+                if ($upres['error'] == false) {
+                    $newdata['icon'] = $upres['result']['iconimg']['fullpath'];
+                }
             }
-            $upfile = $this->upfile();
-            if($upfile['error']==false){
-                $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+            if($_FILES['filepath']['size']>0) {
+                $upfile = $this->upfile();
+                if ($upfile['error'] == false) {
+                    $newdata['filepath'] = $upfile['result']['filepath']['fullpath'];
+                }
             }
             $imgs = I('post.img');
             $newdata['imgs'] = json_encode($imgs);
