@@ -41,9 +41,11 @@ class VideoController extends Controller {
 		//视频搜索
 		$search = trim(I('post.keywords'));
 		if(!empty($search)){
-			$params['name'] =array('like', array("%$search%"),'OR');
-			$params['director'] =array('like', array("%$search%"),'OR');
-			$params['actors'] =array('like', array("%$search%"),'OR');
+			$paramss['name'] =array('like', array("%$search%"));
+			$paramss['director'] =array('like', array("%$search%"));
+			$paramss['actors'] =array('like', array("%$search%"));
+			$paramss['_logic'] = 'or';
+			$params['_complex'] = $paramss;
 		}
 
 		//是否是推荐
@@ -73,12 +75,12 @@ class VideoController extends Controller {
 
 		//按照年筛选
 		$min_five_year = date("Y")-5;
-		$year = trim(I('post.year'));
-		if(!empty($year)){
+		$year = I('post.year',null,'int');
+		if(isset($year)){
 			$params['years'] = $year;
 		}
-		if(!empty($year) && $year <= $min_five_year) {
-			$params['years'] = array('elt',$year);
+		if(isset($year) && $year <= $min_five_year) {
+			$params['years'] = array('elt',$min_five_year);
 		}
 
 		//按照uuid查询
@@ -113,6 +115,23 @@ class VideoController extends Controller {
 		}
 
 		$this->ajaxReturn($vlist);
+	}
+
+	/**
+	 * 视频相关推荐
+	 * @param int type 1:电影（默认） 2：电视剧
+	 * @param string category : 类型：运动、冒险等。。。
+	 * @return json data
+	 */
+	function relateRecommend(){
+		$type = I('post.type',null,'int')?I('post.type',null,'int'):1;//默认为电影
+		$tags = trim(I('post.category'));
+		if(!empty($tags)){
+			$params['category'] = $tags;
+		}
+		$params['type'] =  $type;
+		$data =  $this->videoLogic->relateRecommend($params);
+		$this->ajaxReturn($data);
 	}
 
 	function columns(){

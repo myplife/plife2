@@ -3,8 +3,11 @@
 	use Think\Controller;
 
 	class ETouchController extends Controller{
-		public function test(){
-			echo(getcwd());
+		public function connToInternet(){
+			$data = array();
+			$data['rst'] = '0';
+			$data['msg'] = '现在只是测试，待实现';
+			$this->ajaxReturn($data);
 		}
 
 		/*public function test(){

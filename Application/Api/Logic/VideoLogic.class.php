@@ -14,10 +14,12 @@ class VideoLogic extends \Think\Model{
         $this->Video = M('Video');
         $this->App = M('App');
         $this->videoModel = M('Video');
+	    $this->Model = M();
     }
     private $Video;
     private $App;
 	private $videoOrder = array('creatime', 'viewtimes');
+	private $Model;
 
     public function getimgById($id){
         if($id){
@@ -57,9 +59,11 @@ class VideoLogic extends \Think\Model{
        $data =  $this->videoModel
 		       ->field('id,uuid,name,cover,type,duratime,director,actors,setnum,years,country,category,intro,imgs,provider,isrecommend,viewtimes,filepath,creatime')
 		       ->where($mycond)->page($curpage)->order("$order desc")->select();
-	    $data2 = array('list'=>$data);
-	    $data1 = array('totalcount'=>$this->videoModel->where($mycond)->count());
-	    $data = array_merge($data1,$data2);
+	    return $this->videoModel->getLastSql();
+	    $data = array('list'=>$data);
+	    $totalcount = array('totalcount'=>$this->videoModel->where($mycond)->count());
+	    $category = array('category'=>$this->videoModel->where($mycond)->field('category,count(category) num')->group('category')->order('num desc')->select());
+	    $data = array_merge($totalcount,$data,$category);
 	    return $data;
     }
 
@@ -101,6 +105,18 @@ class VideoLogic extends \Think\Model{
 			}
 		}
 
+	}
+
+	/**
+	 * 详情页面相关推荐
+	 * @param $params
+	 * @return array data
+	 */
+	public function relateRecommend($params){
+		$type = $params['type'];
+		$category = $params['category'];
+		$data = $this->Model->query("select * from __PREFIX__video where type=$type and category='$category' and status=1 order by rand() limit 0,".C('RELATED_RECOMMEND'));
+		return $data;
 	}
 
     function changePlayCount($id = ''){

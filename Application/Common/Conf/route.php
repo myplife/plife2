@@ -44,7 +44,11 @@ return array(
 		'Api/VerifyCode'     => 'Api/User/verifyCode',                      //验证码验证
 		'Api/RegistUser'     => 'Api/User/register',                        //用户注册
 		'Api/Login'          => 'Api/User/login',                           //用户登入
-
+		'Api/ConnToInternet' => 'Api/ETouch/connToInternet',                //一键上网接口
+		'Api/RelatedApps'    => 'Api/Games/relateRecommend',                //游戏APP相关推荐
+		'Api/RelatedVideos'  => 'Api/Video/relateRecommend',                //视频相关推荐
+		'Api/RandomApps'     => 'Api/Games/relateRecommend',                //随机应用
+		'Api/DownloadStatistic'  => 'Api/Games/downloadStatistic',          //下载统计接口（周榜/月榜）
 
 
 

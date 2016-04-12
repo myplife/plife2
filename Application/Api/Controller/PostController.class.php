@@ -38,12 +38,12 @@ class PostController extends Controller
 
 	/**
 	 * 文章列表接口
-	 * @param int acticletype : 类型：0：厂区培训 1：厂区通知 2:普通文章 没有则代表所有类型
+	 * @param int type : 类型：0：厂区培训 1：厂区通知 2:普通文章 没有则代表所有类型
 	 * @return json:data
 	 */
 	public function getArticleList(){
 		$params = array();
-		$type = I('post.acticletype',null,'int');
+		$type = I('post.type',null,'int');
 		if(isset($type)){
 			switch($type){
 				case 0:$params['cid'] = '53';break;

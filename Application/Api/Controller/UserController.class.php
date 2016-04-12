@@ -152,6 +152,10 @@ class UserController extends Controller {
 					$data['rst'] = '0';
 					$data['msg'] = '登入成功';
 					$this->User->login(array('phone'=>$phone));
+					$use['userid'] = $user[0]['uid'];
+					$use['phone'] = $user[0]['phone'];
+					$use['username'] = $user[0]['nickname'];
+					$data['user'] = $use;
 				}
 			}
 		}

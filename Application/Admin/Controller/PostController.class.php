@@ -83,18 +83,14 @@ class PostController extends Controller {
             $newdata['author']= session('username');
             $newdata['create_date'] = date('Y-m-d H:i:s');
             $ret = $this->Post->where('id='.$id)->save($newdata);
-            if($ret){
-                $this->redirect('Post/postmgr');
-            }else{
-                $this->assign('errcode','1');  // 修改失败
-                $this->error('编辑数据失败');
-            }
+            $this->redirect('Post/postmgr');
         }else{
             $id = I('get.id','','int');
             $data = $this->postLogic->getPostById($id);
             $this->data = $data;
-            $cates = getSortedCategory($this->categoryLogic->getCategoryList());
-            $this->assign('cate',$cates);
+           // $cates = getSortedCategory($this->categoryLogic->getCategoryList());
+            $cates = $this->categoryLogic->getCategoryList(array('pid'=>52));
+	    $this->assign('cate',$cates);
             $this->display("Post/postedit");
         }
     }

@@ -21,7 +21,8 @@ class CategoryController extends Controller
      */
     public function GetCategory()
     {
-        $type = I('post.type', '', 'int') ? I('post.type', '', 'int') : 1;
+        $type = I('post.type','','int')?I('post.type','','int'):1;
+
         $data = $this->categoryLogic->getCategoryList($type);
         $this->ajaxReturn($data);
     }
