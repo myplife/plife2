@@ -96,16 +96,20 @@ class GamesController extends Controller {
 	 * @param number int (可选)返回记录数量
 	 * @param pages int 分页数，默认为1
 	 * @param rowcount int （可选）每页返回记录数
+	 * @param type int 1:游戏（默认） 2：应用
 	 */
 	function getPopApps(){
 		$page = I('post.pages','','int') ? I('post.pages','','int') : 1;
 		$number = I('post.number','','int') ? I('post.number','','int') : C('POP_NUM');
 		$rowcount = I('post.rowcount','','int') ? I('post.rowcount','','int') : 0;
 
-		$games = $this->GamesLogic->getPopApps($page,$number,$rowcount);
+		$type = I('post.type','','int')?I('post.type','','int'):1;
+
+		$games = $this->GamesLogic->getPopApps($page,$number,$rowcount,$type);
 
 		$this->ajaxReturn($games);
 	}
+
 
 	/**
 	 * 上月精品游戏推荐
@@ -114,6 +118,7 @@ class GamesController extends Controller {
 	 * @param pages int 分页数，默认为1
 	 * @param rowcount int (可选) 每页返回记录数
 	 */
+	/*
 	function getMonthPopApps(){
 		$page = I('post.pages','','int') ? I('post.pages','','int') : 1;
 		$number = I('post.number','','int') ? I('post.number','','int') : C('POP_NUM');
@@ -122,6 +127,37 @@ class GamesController extends Controller {
 		$games = $this->GamesLogic->getMonthPopApps($page,$number,$rowcount);
 
 		$this->ajaxReturn($games);
+	}*/
+
+	/**
+	 * 获取榜单
+	 * @param number int (可选)返回记录数量
+	 * @param pages int 分页数，默认为1
+	 * @param rowcount int (可选) 每页返回记录数
+	 * @param statistictype int 类型： 1.月榜（默认） 2.周榜
+	 * @param type int 1.游戏(默认) 2.应用
+	 * @return json data
+	 */
+	function downloadStatistic(){
+		$page = I('post.pages','','int')?I('post.pages','','int'):1;
+		$number = I('post.number','','int')?I('post.number','','int'):C('POP_NUM');
+		$rowcount = I('post.rowcount','','int') ? I('post.rowcount','','int') : 0;
+
+		//获取种类，默认为月榜
+		$statistictype = I('post.statistictype','','int');
+		if(!in_array($statistictype,array('1','2'))){
+			$statistictype = 1;
+		}
+
+		//获取类型，默认为游戏
+		$type = I('post.type','','int');
+		if(!in_array($type,array('1','2'))){
+			$type = 1;
+		}
+
+		$data = $this->GamesLogic->downloadStatistic($page,$number,$rowcount,$type,$statistictype);
+
+		$this->ajaxReturn($data);
 	}
 
 	/**
@@ -184,6 +220,23 @@ class GamesController extends Controller {
 		$params['objid'] = I('post.objid','','int');
 		$params['type'] = '2';
 		$data = $this->GamesLogic->getAppComments($params);
+		$this->ajaxReturn($data);
+	}
+
+	/**
+	 * APP相关推荐
+	 * @param int type 1:游戏(默认) 2：APP
+	 * @param string category : 类型：益智休闲等。。。
+	 * @return json data
+	 */
+	function relateRecommend(){
+		$apptype = I('post.type',null,'int')?I('post.type',null,'int'):1;//默认为游戏
+		$tags = trim(I('post.category'));
+		if(!empty($tags)){
+			$params['tags'] = $tags;
+		}
+		$params['apptype'] =  $apptype;
+		$data =  $this->GamesLogic->relateRecommend($params);
 		$this->ajaxReturn($data);
 	}
 

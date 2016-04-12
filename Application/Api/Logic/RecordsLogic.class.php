@@ -30,7 +30,7 @@ class recordsLogic extends \Think\Model{
 	 * 查询用户操作
 	 * 参数：
 	 * $params 查询条件
-	 * 用户操作类型：0.下载app 1.视频播放 2.搜索 3.阅读图书 4.打开广告 5.查询 6.打开游戏 7.打开应用 8.注册登入 9.上网 99.all null.不限类型
+	 * 用户操作类型：0.下载app 1.视频播放 2.搜索 3.阅读图书 4.打开广告 5.查询 6.打开游戏 7.打开应用 8.注册登入 9.上网 10.系统消息阅读 99.all null.不限类型
 	 */
 	public function searchOperation($params = array()){
 		$cond = array();
@@ -39,8 +39,8 @@ class recordsLogic extends \Think\Model{
 		}
 
 		$data = null;
-		if(!isset($cond['operation']) || $cond['operation'] ==  8 || $cond['operation'] == 9 || $cond['operation'] == 2 || $cond['operation'] == 5 || $cond['operation'] == 99){
-			//操作为：所有，默认，搜索，查询，注册登入，上网
+		if(!isset($cond['operation']) || $cond['operation'] ==  8 || $cond['operation'] == 9 || $cond['operation'] == 2 || $cond['operation'] == 5 || $cond['operation'] == 99 || $cond['operation'] == 10){
+			//操作为：所有，默认，搜索，查询，注册登入，上网,阅读系统消息
 			//操作表对象：operation
 			$data = $this->Operation->field('uid userid,creatime,operation')->where($cond)->order('creatime desc')->select();
 			return $data;
@@ -77,7 +77,7 @@ class recordsLogic extends \Think\Model{
 				//操作为：打开广告
 				$param['_string'] = 'banner.id = opt.objid';
 				//操作表对象：operation,banner
-				$data = $this->Operation->table('__BANNER__ banner,__OPERATION__ opt')->field('opt.uid as userid,opt.operation,opt.creatime,opt.public publiccolumn,banner.name as objname,banner.img as objmqurl,banner.url as objurl')
+				$data = $this->Operation->table('__BANNER__ banner,__OPERATION__ opt')->field('opt.uid userid,opt.operation,opt.creatime,opt.public publiccolumn,banner.name as objname,banner.img as objmqurl,banner.url as objurl')
 						->where($param)->order('opt.creatime desc')->select();
 				return $data;
 			}
@@ -88,7 +88,7 @@ class recordsLogic extends \Think\Model{
 	/**
 	 * 关键字查询
 	 * @param params array
-	 * @retrun data array
+	 * @return data array
 	 */
 	public function getKeywords($params){
 		$data = null;

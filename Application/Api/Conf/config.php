@@ -7,6 +7,7 @@ return array(
 	'DATE_TO' => '2016-03-23',//结束时间段
 	'POP_NUM' => '3',//游戏人气最高数
 	'RECOMMEND_DEFAULT_SORT' => 'creatime',//推荐默认排序
+	'RELATED_RECOMMEND' => 4,//详情页面的相关推荐数目(游戏)
 	'APP_VERSION'   => 'xxx.xxx.xxx',//app当前版本
 	'APP_URL'       => 'http://xxx.xxx.xxx',//APP路径
 	'APP_UPDATE'    => '0',//是否强制更新，0为不强制更新，1为必须更新
