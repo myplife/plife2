@@ -5,7 +5,7 @@ return array(
     'DB_HOST'   => 'localhost',
     'DB_NAME'   => 'plife',
     'DB_USER'   => 'root',
-    'DB_PWD'    => '',
+    'DB_PWD'    => 'mysql',
     'DB_PORT'   => 3306, 
     'DB_PREFIX' => 'pl_',
     'URL_CASE_INSENSITIVE' =>true, 
