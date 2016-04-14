@@ -30,7 +30,7 @@ class IndexFunctionController extends Controller
 	 * @return json : data
 	 */
 	public function getDNSAddress(){
-		$data['mss'] = '目前仅仅是测试';
+		$data['mss'] = 'http://wx.pinet.cc/plife2/';
 		$this->ajaxReturn($data);
 	}
 

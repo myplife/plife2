@@ -12,16 +12,18 @@ namespace Api\Logic;
 class AppLogic extends \Think\Model{
     public function __construct(){
         $this->App = M('App');
+	    $this->Video = M('Video');
     }
     private $App;
+	private $Video;
 
-    public function getAppList($cond=array(), $p){
-        $mycond = array();
-        if(is_array($cond) && count($cond)>0){
-            $mycond = $cond;
-        }
-        $pstr = $p.','.C('ADMIN_REC_PER_PAGE');
-        $data = $this->App->where($mycond)->where('isdel is null')->page($pstr)->order(C('RECOMMEND_DEFAULT_SORT').' desc')->select();
+    public function getAppList($cond){
+		if($cond['apptype'] != 0){
+			$data = $this->App->field('cover')->where($cond)->order(C('RECOMMEND_DEFAULT_SORT').' desc')->select();
+		}else{
+			unset($cond['apptype']);
+			$data = $this->Video->field('cover')->where($cond)->order(C('RECOMMEND_DEFAULT_SORT').' desc')->select();
+		}
         return $data;
     }
 

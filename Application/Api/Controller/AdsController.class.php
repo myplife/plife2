@@ -37,14 +37,21 @@ class AdsController extends Controller {
 
     /**
      * 游戏幻灯片信息获取接口
-     * @param int t : （可选）类型：1:游戏（默认）  2:应用
+     * @param int type : （可选）类型：0:视频 1:游戏（默认）  2:应用
      * @return json : data
      */
     public function getappimgs()
     {
-        $t = I('post.type', '', 'int') ? I('post.type', '', 'int') : 1;
-        $mycond['apptype'] = $t;
-        $data = $this->appLogic->getAppList($mycond,1);
+	    $type = I('post.type',null,'int');
+	    if(!in_array($type,array('0','1','2'))){
+		    $mycond['apptype'] = '1';
+	    }else{
+		    $mycond['apptype'] = $type;
+	    }
+	    $mycond['slide'] = '1';
+	    $mycond['status'] = '1';
+	    $mycond['_string'] = 'isdel is null';
+        $data = $this->appLogic->getAppList($mycond);
         $this->ajaxReturn($data);
     }
 

@@ -59,7 +59,6 @@ class VideoLogic extends \Think\Model{
        $data =  $this->videoModel
 		       ->field('id,uuid,name,cover,type,duratime,director,actors,setnum,years,country,category,intro,imgs,provider,isrecommend,viewtimes,filepath,creatime')
 		       ->where($mycond)->page($curpage)->order("$order desc")->select();
-	    return $this->videoModel->getLastSql();
 	    $data = array('list'=>$data);
 	    $totalcount = array('totalcount'=>$this->videoModel->where($mycond)->count());
 	    $category = array('category'=>$this->videoModel->where($mycond)->field('category,count(category) num')->group('category')->order('num desc')->select());

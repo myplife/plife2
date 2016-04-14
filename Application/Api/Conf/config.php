@@ -5,7 +5,7 @@ return array(
 	'TIME_BUCKET' => 6,//时间段
 	'DATE_FORM' => '2014-05-11',//开始时间段
 	'DATE_TO' => '2016-03-23',//结束时间段
-	'POP_NUM' => '3',//游戏人气最高数
+	'POP_NUM' => '10000',//游戏人气最高数
 	'RECOMMEND_DEFAULT_SORT' => 'creatime',//推荐默认排序
 	'RELATED_RECOMMEND' => 4,//详情页面的相关推荐数目(游戏)
 	'APP_VERSION'   => 'xxx.xxx.xxx',//app当前版本
