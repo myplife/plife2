@@ -18,8 +18,9 @@
 			echo("<script type='text/javascript'>");
 			echo("
 				$(document).ready(function(){
-					//ikLogin();
+					ikLogin();
 					$.post('http://localhost/plife/index.php/Api/ETouch/test1',{name:'卧室'},function(data,status){
+						document.write('dd');
 						alert(status+'11111'+data);
 					});
 
