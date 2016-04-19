@@ -49,6 +49,9 @@ return array(
 		'Api/RelatedVideos'  => 'Api/Video/relateRecommend',                //视频相关推荐
 		'Api/RandomApps'     => 'Api/Games/relateRecommend',                //随机应用
 		'Api/DownloadStatistic'  => 'Api/Games/downloadStatistic',          //下载统计接口（周榜/月榜）
+		'Api/GetPointTrans'  => 'Api/Product/exchangeRecord',               //产品兑换记录
+		'Api/GetHotProducts' => 'Api/Product/getHotProducts',               //热门积分商品兑换记录
+		'Api/SavePrivateSetting' => 'Api/User/updateUserInfo',              //隐私设置接口
 
 
 

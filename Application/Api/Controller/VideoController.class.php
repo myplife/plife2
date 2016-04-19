@@ -86,7 +86,7 @@ class VideoController extends Controller {
 		//按照uuid查询
 		$uuid = trim(I('post.id'));
 		if(!empty($uuid)){
-			$params['uuid'] =  $uuid;
+			$params['id'] =  $uuid;
 		}
 
 		$page = I('post.pages','','int') ? I('post.pages','','int') : 1;

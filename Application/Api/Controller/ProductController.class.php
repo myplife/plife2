@@ -136,4 +136,41 @@ class ProductController extends Controller {
 		$this->ajaxReturn($data);
 	}
 
+	/**
+	 *积分兑换记录
+	 * @param int userid:用户ID
+	 * @param int pages:（可选）分页 默认为1
+	 * @parms int rowcount:（可选）每页返回记录数
+	 * @return json data
+	 */
+	public function exchangeRecord(){
+		$userid = I('post.userid',null,'int');
+		$pages = I('post.pages','','int')?I('post.pages','','int'):1;
+		$rowcount = I('post.rowcount','','int')?I('post.rowcount','','int'):C('MOB_REC_PER_PAGE');
+
+		if(isset($userid)){
+			$params['userid'] =  $userid;
+			$data =  $this->ProductLogic->exchangeRecord($params,$pages,$rowcount);
+		}else{
+			$data['rst'] = -1;
+			$data['msg'] = '无效的USERID';
+		}
+
+		$this->ajaxReturn($data);
+	}
+
+	/**
+	 * 热门积分兑换商品
+	 * @param int pages :(可选)分页 默认为1
+	 * @param int rowcount :(可选)每页返回记录数，默认系统设置值
+	 * @param json data
+	 */
+	public function getHotProducts(){
+		$pages = I('post.pages','','int')?I('post.pages','','int'):1;
+		$rowcount = I('post.rowcount','','int')?I('post.rowcount','','int'):C('MOB_REC_PER_PAGE');
+		$data = $this->ProductLogic->getHotProducts($pages,$rowcount);
+
+		$this->ajaxReturn($data);
+	}
+
 }

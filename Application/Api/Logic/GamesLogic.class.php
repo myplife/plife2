@@ -274,11 +274,26 @@ class GamesLogic extends \Think\Model{
 	/**
 	 * 游戏评论获取
 	 * @param objid : int
+	 * @param pages :int 当前分页
+	 * @param rowcount int 每页返回记录数 默认为系统设置
 	 * @return data : array
 	 */
-	public function getAppComments($params){
-		$data = $this->Comment->field('objid,userid,score,content comment')->where($params)->select();
-		return $data;
+	public function getAppComments($objid,$pages,$rowcount){
+		if($rowcount>0 && $rowcount<C('MOB_REC_PER_PAGE')){
+			$curpage = $pages.','.$rowcount;
+		}else{
+			$curpage = $pages.','.C('MOB_REC_PER_PAGE');
+		}
+
+		$params['c.objid'] = $objid;
+		$params['c.type'] = '2';
+		$params['c.audit'] = '1';
+		$params['_string'] = 'c.userid=u.uid';
+		$data = $this->Model->table('__USER__ u,__COMMENT__ c')->field('c.objid,c.userid,c.score,c.content comment,u.nickname name,c.creatime time')
+				->where($params)->order('c.creatime desc')->page($curpage)->select();
+		$totalcount = $this->Comment->where('objid='.$objid.' and type=2 and audit=1')->count();
+		$average = $this->Comment->where('objid='.$objid.' and type=2 and audit=1')->avg('score');
+		return array_merge(array('totalcount'=>$totalcount),array('average'=>$average),array('list'=>$data));
 	}
 
 	/**

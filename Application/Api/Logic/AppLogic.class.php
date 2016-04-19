@@ -19,10 +19,10 @@ class AppLogic extends \Think\Model{
 
     public function getAppList($cond){
 		if($cond['apptype'] != 0){
-			$data = $this->App->field('cover')->where($cond)->order(C('RECOMMEND_DEFAULT_SORT').' desc')->select();
+			$data = $this->App->field('cover imgurl,id,name')->where($cond)->order(C('RECOMMEND_DEFAULT_SORT').' desc')->select();
 		}else{
 			unset($cond['apptype']);
-			$data = $this->Video->field('cover')->where($cond)->order(C('RECOMMEND_DEFAULT_SORT').' desc')->select();
+			$data = $this->Video->field('cover imgurl,id,name')->where($cond)->order(C('RECOMMEND_DEFAULT_SORT').' desc')->select();
 		}
         return $data;
     }

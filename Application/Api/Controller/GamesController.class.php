@@ -60,7 +60,7 @@ class GamesController extends Controller {
 
 		//按照id查询
 		$id = trim(I('post.id'));
-		if(!empty($uuid)){
+		if(!empty($id)){
 			$params['id'] =  $id;
 		}
 
@@ -213,13 +213,16 @@ class GamesController extends Controller {
 	/**
 	 * 游戏评论获取
 	 * @param int objid : 资源ID
+	 * @param int pages:(可选)分页 默认为1
+	 * @param int rowcount:(可选)每页返回记录数
 	 * @return json : data
 	 */
 	function getAppComments(){
-		$params = array();
-		$params['objid'] = I('post.objid','','int');
-		$params['type'] = '2';
-		$data = $this->GamesLogic->getAppComments($params);
+		$objid = I('post.objid','','int');
+
+		$pages = I('post.pages','','int')?I('post.pages','','int'):1;
+		$rowcount = I('post.rowcount','','int')?I('post.rowcount','','int'):C('MOB_REC_PER_PAGE');
+		$data = $this->GamesLogic->getAppComments($objid,$pages,$rowcount);
 		$this->ajaxReturn($data);
 	}
 

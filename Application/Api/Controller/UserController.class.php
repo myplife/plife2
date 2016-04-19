@@ -196,7 +196,24 @@ class UserController extends Controller {
 		if(!empty($birthday)){
 			$params['birthday'] = $birthday;
 		}
+		//设置昵称是否显示
+		$shownickname = I('post.showname',null,'int');
+		if(isset($shownickname)){
+			if(!in_array($shownickname,array('0','1'))){
+				$shownickname = '1';
+			}
+			$params['shownickname'] = $shownickname;
 
+		}
+
+		//设置手机号是否显示
+		$showphone = I('post.showphone',null,'int');
+		if(isset($showphone)){
+			if(!in_array($showphone,array('0','1'))){
+				$showphone = '1';
+			}
+			$params['showphone'] = $showphone;
+		}
 
 		$data = array();
 		$data['rst'] = '-1';

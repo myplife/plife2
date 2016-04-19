@@ -38,4 +38,14 @@
 			exit;
 		}
 
+		public function test2(){
+			ignore_user_abort();
+			set_time_limit(0);
+			$inte = 3;
+			for($i=1;$i<10;$i++) {
+				echo(date('H:i:s'));
+				sleep($inte);
+			}
+		}
+
 	}
